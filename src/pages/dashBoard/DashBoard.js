@@ -1,12 +1,13 @@
-import React from 'react'
-import ManageAllNews from './ManageAllNews'
+import React from "react";
+
+import ManageAllNews from "./ManageAllNews";
 
 const DashBoard = () => {
-    return (
-        <div>
-            <ManageAllNews />
-        </div>
-    )
-}
+  return (
+    <div>
+      <ManageAllNews />
+    </div>
+  );
+};
 
-export default DashBoard
+export default DashBoard;
