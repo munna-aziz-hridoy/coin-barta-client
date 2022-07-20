@@ -11,6 +11,7 @@ import ManageAllNews from './pages/dashBoard/ManageAllNews'
 import Category from './pages/dashBoard/Category'
 import UserDash from './pages/dashBoard/UserDash'
 import UpdateEmail from './pages/dashBoard/UpdateEmail'
+import AddNews from './pages/dashBoard/AddNews'
 
 function App() {
     return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/category" element={<Category />} />
                 <Route path="/user" element={<UserDash />} />
                 <Route path="/updateEmail" element={<UpdateEmail />} />
+                <Route path="/addNews" element={<AddNews />} />
             </Routes>
             <Footer />
         </div>

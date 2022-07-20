@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 
 const UpdateEmail = () => {
     const [showPass, setShowPass] = useState(false)
+    const [showNewPass, setShowNewPass] = useState(false)
 
     const {
         register,
@@ -19,8 +20,10 @@ const UpdateEmail = () => {
         <div className="flex md:h-screen justify-center items-center ">
             <div className="card w-96 bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="text-center mb-10 text-2xl font-bold ">
-                        Change Email
+                    <h2 className="text-center m-5 text-2xl font-bold ">
+                        Change Your Email
+                        <br />
+                        And Password
                     </h2>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="form-control w-full max-w-xs">
@@ -61,15 +64,15 @@ const UpdateEmail = () => {
                         {/* password */}
                         <div className="form-control w-full max-w-xs">
                             <label className="label">
-                                <span className="label-text">Password</span>
+                                <span className="label-text">New Password</span>
                             </label>
                             <div className="relative">
                                 <p
-                                    onClick={() => setShowPass(!showPass)}
+                                    onClick={() => setShowNewPass(!showNewPass)}
                                     className="absolute  right-5 cursor-pointer top-2"
                                 >
                                     <FontAwesomeIcon
-                                        icon={showPass ? faEye : faEyeSlash}
+                                        icon={showNewPass ? faEye : faEyeSlash}
                                     />
                                 </p>
                                 <input
@@ -83,7 +86,7 @@ const UpdateEmail = () => {
                                             message: 'Must be 6 characters!',
                                         },
                                     })}
-                                    type={showPass ? 'text' : 'password'}
+                                    type={showNewPass ? 'text' : 'password'}
                                     placeholder="Your Password"
                                     className="input input-bordered w-full max-w-xs"
                                 />
@@ -97,6 +100,53 @@ const UpdateEmail = () => {
                                 {errors.password?.type === 'minLength' && (
                                     <span className="label-text-alt text-red-500">
                                         {errors.password.message}
+                                    </span>
+                                )}
+                            </label>
+                        </div>
+                        {/* password */}
+                        <div className="form-control w-full max-w-xs">
+                            <label className="label">
+                                <span className="label-text">
+                                    Current Password
+                                </span>
+                            </label>
+                            <div className="relative">
+                                <p
+                                    onClick={() => setShowPass(!showPass)}
+                                    className="absolute  right-5 cursor-pointer top-2"
+                                >
+                                    <FontAwesomeIcon
+                                        icon={showPass ? faEye : faEyeSlash}
+                                    />
+                                </p>
+                                <input
+                                    {...register('current_password', {
+                                        required: {
+                                            value: true,
+                                            message: 'Password is required!',
+                                        },
+                                        minLength: {
+                                            value: 6,
+                                            message: 'Must be 6 characters!',
+                                        },
+                                    })}
+                                    type={showPass ? 'text' : 'password'}
+                                    placeholder="Your Current Password"
+                                    className="input input-bordered w-full max-w-xs"
+                                />
+                            </div>
+                            <label className="label">
+                                {errors.current_password?.type ===
+                                    'required' && (
+                                    <span className="label-text-alt text-red-500">
+                                        {errors.current_password.message}
+                                    </span>
+                                )}
+                                {errors.current_password?.type ===
+                                    'minLength' && (
+                                    <span className="label-text-alt text-red-500">
+                                        {errors.current_password.message}
                                     </span>
                                 )}
                             </label>

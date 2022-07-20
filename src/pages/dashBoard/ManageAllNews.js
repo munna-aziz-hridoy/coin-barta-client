@@ -17,10 +17,10 @@ const ManageAllNews = () => {
                         <div className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                             <div className="lg:ml-6 flex items-center">
                                 <button className="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normaltext-indigo-700 px-5 h-8 flex items-center text-sm">
-                                    <Link to="/addItems">Add News</Link>
+                                    <Link to="/addNews">Add News</Link>
                                 </button>
                                 <Link
-                                    to="/addItems"
+                                    to="/addNews"
                                     className="text-white  ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center"
                                 >
                                     <svg
