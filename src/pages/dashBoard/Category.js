@@ -1,9 +1,36 @@
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+import { ServerUrlContext } from '../..'
+import useCategory from '../../hooks/useCategory'
 import DashBoardNav from './DashBoardNav'
 
 const Category = () => {
+    const [errorText, setErrorText] = useState('')
+    const serverUrl = useContext(ServerUrlContext)
+    const [categories] = useCategory(serverUrl)
+    const handleAddCategory = () => {
+        const categoryField = document.getElementById('category-field')
+        const category = categoryField.value
+        if (!category) {
+            return setErrorText('Please add any category')
+        }
+        fetch(`${serverUrl}/api/v1/categories/add-category`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${sessionStorage.getItem(
+                    'accessToken'
+                )}`,
+            },
+            body: JSON.stringify({ name: category }),
+        })
+            .then((res) => res.json())
+            .then((data) => console.log(data))
+    }
+
     return (
         <>
             <DashBoardNav />
@@ -60,14 +87,26 @@ const Category = () => {
                                         <h3 class="font-bold text-lg mb-4">
                                             Please Input Category Name
                                         </h3>
+
                                         <input
+                                            id="category-field"
                                             type="text"
+                                            name="category"
                                             placeholder="Category Name"
                                             class="input input-bordered  w-full max-w-xs"
                                         />
-                                        <button class="btn ml-5 btn-outline">
+
+                                        <button
+                                            onClick={handleAddCategory}
+                                            class="btn ml-5 btn-outline"
+                                        >
                                             Add
                                         </button>
+                                        {errorText && (
+                                            <p className="text-sm text-red-400 text-center">
+                                                {errorText}
+                                            </p>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -94,104 +133,107 @@ const Category = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {/* {products.map((product) => ( */}
-                                <tr
-                                    // key={product._id}
-                                    className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
-                                    data-aos="fade-right"
-                                    data-aos-duration="2000"
-                                >
-                                    <td className="text-sm px-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                                        Coni
-                                    </td>
-
-                                    <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                                        4-5-22
-                                    </td>
-                                    <td className="pr-8 relative">
-                                        <button
-                                            // onClick={() =>
-                                            //     handleDelete(
-                                            //         product._id
-                                            //     )
-                                            // }
-                                            className=" cursor-pointer focus:outline-none"
+                                {categories?.map((product) => {
+                                    return (
+                                        <tr
+                                            // key={product._id}
+                                            className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
+                                            data-aos="fade-right"
+                                            data-aos-duration="2000"
                                         >
-                                            <label
-                                                for="my-modal-edit"
-                                                className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
-                                            >
-                                                <FontAwesomeIcon
-                                                    icon={faPenToSquare}
-                                                />
-                                            </label>
-                                            {/* Modal Edit*/}
-                                            <input
-                                                type="checkbox"
-                                                id="my-modal-edit"
-                                                class="modal-toggle"
-                                            />
-                                            <div class="modal modal-bottom sm:modal-middle">
-                                                <div class="modal-box relative">
+                                            <td className="text-sm px-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                                                {product?.name}
+                                            </td>
+
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                                                {product?.createdDate}
+                                            </td>
+                                            <td className="pr-8 relative">
+                                                <button
+                                                    // onClick={() =>
+                                                    //     handleDelete(
+                                                    //         product._id
+                                                    //     )
+                                                    // }
+                                                    className=" cursor-pointer focus:outline-none"
+                                                >
                                                     <label
                                                         for="my-modal-edit"
-                                                        class="btn btn-sm btn-circle absolute right-2 top-2"
+                                                        className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
                                                     >
-                                                        ✕
+                                                        <FontAwesomeIcon
+                                                            icon={faPenToSquare}
+                                                        />
                                                     </label>
-                                                    <h3 class="font-bold text-lg mb-4">
-                                                        Update Category Name
-                                                    </h3>
-                                                    <div class="form-control w-full ">
-                                                        <label class="label">
-                                                            <span class="label-text font-bold">
-                                                                Previous
-                                                            </span>
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="Type here"
-                                                            class="input input-bordered w-full"
-                                                        />
+                                                    {/* Modal Edit*/}
+                                                    <input
+                                                        type="checkbox"
+                                                        id="my-modal-edit"
+                                                        class="modal-toggle"
+                                                    />
+                                                    <div class="modal modal-bottom sm:modal-middle">
+                                                        <div class="modal-box relative">
+                                                            <label
+                                                                for="my-modal-edit"
+                                                                class="btn btn-sm btn-circle absolute right-2 top-2"
+                                                            >
+                                                                ✕
+                                                            </label>
+                                                            <h3 class="font-bold text-lg mb-4">
+                                                                Update Category
+                                                                Name
+                                                            </h3>
+                                                            <div class="form-control w-full ">
+                                                                <label class="label">
+                                                                    <span class="label-text font-bold">
+                                                                        Previous
+                                                                    </span>
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="Type here"
+                                                                    class="input input-bordered w-full"
+                                                                />
+                                                            </div>
+                                                            <div class="form-control w-full ">
+                                                                <label class="label">
+                                                                    <span class="label-text font-bold">
+                                                                        New
+                                                                    </span>
+                                                                </label>
+                                                                <input
+                                                                    type="text"
+                                                                    placeholder="New Category Name"
+                                                                    class="input input-bordered w-full "
+                                                                />
+                                                            </div>
+                                                            <button class="btn ml-5 mt-10 btn-outline">
+                                                                Update
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div class="form-control w-full ">
-                                                        <label class="label">
-                                                            <span class="label-text font-bold">
-                                                                New
-                                                            </span>
-                                                        </label>
-                                                        <input
-                                                            type="text"
-                                                            placeholder="New Category Name"
-                                                            class="input input-bordered w-full "
-                                                        />
-                                                    </div>
-                                                    <button class="btn ml-5 mt-10 btn-outline">
-                                                        Update
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </button>
-                                    </td>
+                                                </button>
+                                            </td>
 
-                                    <td className="pr-8 relative">
-                                        <button
-                                            // onClick={() =>
-                                            //     handleDelete(
-                                            //         product._id
-                                            //     )
-                                            // }
-                                            className=" cursor-pointer focus:outline-none"
-                                        >
-                                            <div className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-red-600 duration-500 cursor-pointer">
-                                                <FontAwesomeIcon
-                                                    icon={faTrashCan}
-                                                />
-                                            </div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                {/* ))} */}
+                                            <td className="pr-8 relative">
+                                                <button
+                                                    // onClick={() =>
+                                                    //     handleDelete(
+                                                    //         product._id
+                                                    //     )
+                                                    // }
+                                                    className=" cursor-pointer focus:outline-none"
+                                                >
+                                                    <div className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-red-600 duration-500 cursor-pointer">
+                                                        <FontAwesomeIcon
+                                                            icon={faTrashCan}
+                                                        />
+                                                    </div>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </table>
                     </div>
