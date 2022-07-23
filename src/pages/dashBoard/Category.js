@@ -1,13 +1,41 @@
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import ReactPaginate from 'react-paginate'
 import { Link } from 'react-router-dom'
 import { ServerUrlContext } from '../..'
 import useCategory from '../../hooks/useCategory'
 import DashBoardNav from './DashBoardNav'
 
 const Category = () => {
+    const [images, setImages] = useState([])
+    useEffect(() => {
+        fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+            .then((res) => res.json())
+            .then((data) => setImages(data))
+    }, [])
+
+    const [currentItems, setCurrentItems] = useState([])
+    const [pageCount, setPageCount] = useState(0)
+    const [itemOffset, setItemOffset] = useState(0)
+    const itemsPerPage = 6
+
+    useEffect(() => {
+        const endOffset = itemOffset + itemsPerPage
+        console.log(`Loading items from ${itemOffset} to ${endOffset}`)
+        setCurrentItems(images.slice(itemOffset, endOffset))
+        setPageCount(Math.ceil(images.length / itemsPerPage))
+    }, [itemOffset, itemsPerPage, images])
+
+    const handlePageClick = (event) => {
+        const newOffset = (event.selected * itemsPerPage) % images.length
+        console.log(
+            `User requested page number ${event.selected}, which is offset ${newOffset}`
+        )
+        setItemOffset(newOffset)
+    }
+
     const [errorText, setErrorText] = useState('')
     const serverUrl = useContext(ServerUrlContext)
     const [categories] = useCategory(serverUrl)
@@ -39,16 +67,17 @@ const Category = () => {
                     <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
                         <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
                             <div className="flex items-center text-gray-200 text-2xl">
-                                Category:
+                                Category
                             </div>
                         </div>
                         <div className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                             <div className="lg:ml-6 flex items-center">
-                                <button className="bg-gray-200 mt-4 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normaltext-indigo-700 px-5 h-8 flex items-center text-sm">
-                                    <label for="my-modal-category">
-                                        Add New Category
-                                    </label>
-                                </button>
+                                <label
+                                    for="my-modal-category"
+                                    className="bg-gray-200 mt-4 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normaltext-indigo-700 px-5 h-8 flex items-center text-sm"
+                                >
+                                    Add New Category
+                                </label>
                                 <label
                                     for="my-modal-category"
                                     className="text-white mt-4 ml-4 cursor-pointer focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray bg-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 w-8 h-8 rounded flex items-center justify-center"
@@ -128,7 +157,7 @@ const Category = () => {
                                     </th>
 
                                     <td className="text-gray-200 md:font-bold  font-normal    pr-8 text-left text-sm tracking-normal leading-4">
-                                        Delete
+                                        P/U
                                     </td>
                                 </tr>
                             </thead>
@@ -216,6 +245,13 @@ const Category = () => {
                                             </td>
 
                                             <td className="pr-8 relative">
+                                                <input
+                                                    type="checkbox"
+                                                    class="toggle toggle-primary"
+                                                    // checked
+                                                />
+                                            </td>
+                                            {/* <td className="pr-8 relative">
                                                 <button
                                                     // onClick={() =>
                                                     //     handleDelete(
@@ -230,7 +266,7 @@ const Category = () => {
                                                         />
                                                     </div>
                                                 </button>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     )
                                 })}
@@ -238,6 +274,37 @@ const Category = () => {
                         </table>
                     </div>
                 </div>
+            </div>
+            <div>
+                <>
+                    <div className="grid gap-10 grid-cols-3 max-w-7xl mx-auto my-20">
+                        {currentItems.map((img) => {
+                            return (
+                                <div>
+                                    <img
+                                        className="max-w-xs rounded-lg"
+                                        src={img.url}
+                                        alt={img.title}
+                                    />
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <ReactPaginate
+                        breakLabel="..."
+                        nextLabel="next >"
+                        onPageChange={handlePageClick}
+                        pageRangeDisplayed={3}
+                        pageCount={pageCount}
+                        previousLabel="< previous"
+                        renderOnZeroPageCount={null}
+                        containerClassName="pagination"
+                        pageLinkClassName="page-num"
+                        previousLinkClassName="page-num"
+                        nextLinkClassName="page-num"
+                        activeLinkClassName="active"
+                    />
+                </>
             </div>
         </>
     )
