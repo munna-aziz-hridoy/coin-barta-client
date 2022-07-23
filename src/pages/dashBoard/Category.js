@@ -4,17 +4,15 @@ import React, { useContext, useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactPaginate from 'react-paginate'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import { ServerUrlContext } from '../..'
 import useCategory from '../../hooks/useCategory'
 import DashBoardNav from './DashBoardNav'
 
 const Category = () => {
-    const [images, setImages] = useState([])
-    useEffect(() => {
-        fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
-            .then((res) => res.json())
-            .then((data) => setImages(data))
-    }, [])
+    const [errorText, setErrorText] = useState('')
+    const serverUrl = useContext(ServerUrlContext)
+    const [categories] = useCategory(serverUrl)
 
     const [currentItems, setCurrentItems] = useState([])
     const [pageCount, setPageCount] = useState(0)
@@ -24,21 +22,18 @@ const Category = () => {
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage
         console.log(`Loading items from ${itemOffset} to ${endOffset}`)
-        setCurrentItems(images.slice(itemOffset, endOffset))
-        setPageCount(Math.ceil(images.length / itemsPerPage))
-    }, [itemOffset, itemsPerPage, images])
+        setCurrentItems(categories.slice(itemOffset, endOffset))
+        setPageCount(Math.ceil(categories.length / itemsPerPage))
+    }, [itemOffset, itemsPerPage, categories])
 
     const handlePageClick = (event) => {
-        const newOffset = (event.selected * itemsPerPage) % images.length
+        const newOffset = (event.selected * itemsPerPage) % categories.length
         console.log(
             `User requested page number ${event.selected}, which is offset ${newOffset}`
         )
         setItemOffset(newOffset)
     }
 
-    const [errorText, setErrorText] = useState('')
-    const serverUrl = useContext(ServerUrlContext)
-    const [categories] = useCategory(serverUrl)
     const handleAddCategory = () => {
         const categoryField = document.getElementById('category-field')
         const category = categoryField.value
@@ -56,7 +51,10 @@ const Category = () => {
             body: JSON.stringify({ name: category }),
         })
             .then((res) => res.json())
-            .then((data) => console.log(data))
+            .then((data) => {
+                toast.success('Category Added')
+                console.log(data)
+            })
     }
 
     return (
@@ -162,7 +160,7 @@ const Category = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {categories?.map((product) => {
+                                {currentItems?.map((product) => {
                                     return (
                                         <tr
                                             // key={product._id}
@@ -277,19 +275,6 @@ const Category = () => {
             </div>
             <div>
                 <>
-                    <div className="grid gap-10 grid-cols-3 max-w-7xl mx-auto my-20">
-                        {currentItems.map((img) => {
-                            return (
-                                <div>
-                                    <img
-                                        className="max-w-xs rounded-lg"
-                                        src={img.url}
-                                        alt={img.title}
-                                    />
-                                </div>
-                            )
-                        })}
-                    </div>
                     <ReactPaginate
                         breakLabel="..."
                         nextLabel="next >"
