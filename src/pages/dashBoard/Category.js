@@ -1,19 +1,20 @@
-import { faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import ReactPaginate from 'react-paginate'
+import { ToastContainer, toast } from 'react-toastify'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { ServerUrlContext } from '../..'
 import useCategory from '../../hooks/useCategory'
 import DashBoardNav from './DashBoardNav'
 
 const Category = () => {
+    const categoryRef = useRef()
+    const [refech, setRefech] = useState(false)
     const [errorText, setErrorText] = useState('')
     const serverUrl = useContext(ServerUrlContext)
-    const [categories] = useCategory(serverUrl)
-
+    const [categories] = useCategory(serverUrl, refech)
     const [currentItems, setCurrentItems] = useState([])
     const [pageCount, setPageCount] = useState(0)
     const [itemOffset, setItemOffset] = useState(0)
@@ -52,15 +53,48 @@ const Category = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                toast.success('Category Added')
+                setRefech(!refech)
                 console.log(data)
+                categoryField.value = ''
+                toast.success('Category Added')
+            })
+    }
+
+    const handleUpdateCategory = (id) => {
+        const updatedCategoryField = document.getElementById('update-category')
+        if (!updatedCategoryField.value) {
+            return setErrorText('Please add any category')
+        }
+
+        fetch(`${serverUrl}/api/v1/categories/update-category?id=${id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type': 'application/json',
+            },
+            body: JSON.stringify({ name: updatedCategoryField?.value }),
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                setRefech(!refech)
+                toast.success('Category Updated')
+            })
+    }
+
+    const handleCategoryPublish = (id) => {
+        fetch(`${serverUrl}/api/v1/categories/pulish-category?id=${id}`, {
+            method: 'PATCH',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data)
+                setRefech(!refech)
             })
     }
 
     return (
         <>
             <DashBoardNav />
-            <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-hidden">
+            <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-x-auto relative">
                 <div className="mx-auto container bg-gray-800 text-gray-500 shadow rounded">
                     <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
                         <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
@@ -123,12 +157,13 @@ const Category = () => {
                                             class="input input-bordered  w-full max-w-xs"
                                         />
 
-                                        <button
+                                        <label
+                                            for="my-modal-category"
                                             onClick={handleAddCategory}
                                             class="btn ml-5 btn-outline"
                                         >
                                             Add
-                                        </button>
+                                        </label>
                                         {errorText && (
                                             <p className="text-sm text-red-400 text-center">
                                                 {errorText}
@@ -151,41 +186,44 @@ const Category = () => {
                                         Creating Date
                                     </th>
                                     <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                                        Creating Time
+                                    </th>
+                                    <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                                         Edit
                                     </th>
 
                                     <td className="text-gray-200 md:font-bold  font-normal    pr-8 text-left text-sm tracking-normal leading-4">
-                                        P/U
+                                        Publish
                                     </td>
                                 </tr>
                             </thead>
                             <tbody>
-                                {currentItems?.map((product) => {
+                                {currentItems?.map((category) => {
+                                    const date =
+                                        category?.createdDate.split('T')[0]
+                                    const time = category?.createdDate
+                                        .split('T')[1]
+                                        .split('.')[0]
                                     return (
                                         <tr
-                                            // key={product._id}
                                             className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
                                             data-aos="fade-right"
                                             data-aos-duration="2000"
                                         >
                                             <td className="text-sm px-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                                                {product?.name}
+                                                {category?.name}
                                             </td>
 
                                             <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                                                {product?.createdDate}
+                                                {date}
+                                            </td>
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                                                {time}
                                             </td>
                                             <td className="pr-8 relative">
-                                                <button
-                                                    // onClick={() =>
-                                                    //     handleDelete(
-                                                    //         product._id
-                                                    //     )
-                                                    // }
-                                                    className=" cursor-pointer focus:outline-none"
-                                                >
+                                                <button className=" cursor-pointer focus:outline-none">
                                                     <label
-                                                        for="my-modal-edit"
+                                                        for={`my-modal-edit-${category._id}`}
                                                         className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
                                                     >
                                                         <FontAwesomeIcon
@@ -195,13 +233,13 @@ const Category = () => {
                                                     {/* Modal Edit*/}
                                                     <input
                                                         type="checkbox"
-                                                        id="my-modal-edit"
+                                                        id={`my-modal-edit-${category._id}`}
                                                         class="modal-toggle"
                                                     />
                                                     <div class="modal modal-bottom sm:modal-middle">
                                                         <div class="modal-box relative">
                                                             <label
-                                                                for="my-modal-edit"
+                                                                for={`my-modal-edit-${category._id}`}
                                                                 class="btn btn-sm btn-circle absolute right-2 top-2"
                                                             >
                                                                 ✕
@@ -210,6 +248,7 @@ const Category = () => {
                                                                 Update Category
                                                                 Name
                                                             </h3>
+
                                                             <div class="form-control w-full ">
                                                                 <label class="label">
                                                                     <span class="label-text font-bold">
@@ -220,6 +259,10 @@ const Category = () => {
                                                                     type="text"
                                                                     placeholder="Type here"
                                                                     class="input input-bordered w-full"
+                                                                    value={
+                                                                        category?.name
+                                                                    }
+                                                                    disabled
                                                                 />
                                                             </div>
                                                             <div class="form-control w-full ">
@@ -232,11 +275,21 @@ const Category = () => {
                                                                     type="text"
                                                                     placeholder="New Category Name"
                                                                     class="input input-bordered w-full "
+                                                                    id="update-category"
                                                                 />
                                                             </div>
-                                                            <button class="btn ml-5 mt-10 btn-outline">
+
+                                                            <label
+                                                                for={`my-modal-edit-${category._id}`}
+                                                                onClick={() =>
+                                                                    handleUpdateCategory(
+                                                                        category?._id
+                                                                    )
+                                                                }
+                                                                class="btn ml-5 mt-10 btn-outline"
+                                                            >
                                                                 Update
-                                                            </button>
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 </button>
@@ -246,25 +299,14 @@ const Category = () => {
                                                 <input
                                                     type="checkbox"
                                                     class="toggle toggle-primary"
-                                                    // checked
+                                                    checked={category?.publish}
+                                                    onChange={() =>
+                                                        handleCategoryPublish(
+                                                            category?._id
+                                                        )
+                                                    }
                                                 />
                                             </td>
-                                            {/* <td className="pr-8 relative">
-                                                <button
-                                                    // onClick={() =>
-                                                    //     handleDelete(
-                                                    //         product._id
-                                                    //     )
-                                                    // }
-                                                    className=" cursor-pointer focus:outline-none"
-                                                >
-                                                    <div className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-red-600 duration-500 cursor-pointer">
-                                                        <FontAwesomeIcon
-                                                            icon={faTrashCan}
-                                                        />
-                                                    </div>
-                                                </button>
-                                            </td> */}
                                         </tr>
                                     )
                                 })}

@@ -56,22 +56,6 @@ const Nav = () => {
                                         </Link>
                                     </li>
                                 ))}
-                                {/* <li>
-                  <Link to="/" className="text-lg py-0">
-                    নিউস
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/tutorial" className="text-lg py-0">
-                    {" "}
-                    টিউটরিয়াল
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/contact" className="text-lg py-0">
-                    কন্টাক
-                  </Link>
-                </li> */}
                             </ul>
                         </div>
                     </div>

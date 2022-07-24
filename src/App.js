@@ -14,6 +14,7 @@ import UpdateEmail from './pages/dashBoard/UpdateEmail'
 import AddNews from './pages/dashBoard/AddNews'
 import ProtectedRoute from './components/ProtectedRoute'
 import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function App() {
     return (
