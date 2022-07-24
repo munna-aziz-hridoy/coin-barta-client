@@ -63,7 +63,9 @@ const Category = () => {
   };
 
   const handleUpdateCategory = (id) => {
-    const updatedCategoryField = document.getElementById("update-category");
+    const updatedCategoryField = document.getElementById(
+      `update-category-${id}`
+    );
     if (!updatedCategoryField.value) {
       return setErrorText("Please add any category");
     }
@@ -186,9 +188,7 @@ const Category = () => {
                   <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Creating Date
                   </th>
-                  <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
-                    Creating Time
-                  </th>
+
                   <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Edit
                   </th>
@@ -216,11 +216,9 @@ const Category = () => {
                       </td>
 
                       <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                        {date}
+                        <span>{date}</span> <span>{time}</span>
                       </td>
-                      <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                        {time}
-                      </td>
+
                       <td className="pr-8 relative">
                         <button
                           // onClick={() =>
@@ -276,7 +274,7 @@ const Category = () => {
                                   type="text"
                                   placeholder="New Category Name"
                                   class="input input-bordered w-full "
-                                  id="update-category"
+                                  id={`update-category-${category?._id}`}
                                 />
                               </div>
 

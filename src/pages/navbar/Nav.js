@@ -1,11 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ServerUrlContext } from "../..";
+import { RefetchContext } from "../../App";
 import useCategory from "../../hooks/useCategory";
 
 const Nav = () => {
+  // const [refech, setRefech] = useContext(RefetchContext);
+  const [filtered, setFiltered] = useState([]);
   const serverUrl = useContext(ServerUrlContext);
+  // const [refetch, setRefech] = useState(false);
   const [categories] = useCategory(serverUrl);
+
+  useEffect(() => {
+    const filteredData = categories.filter(
+      (category) => category.publish === true
+    );
+    setFiltered(filteredData);
+  }, [categories]);
   return (
     <section className="bg-[#FABF2C] px-4">
       <div className=" max-w-7xl mx-auto">
@@ -41,13 +52,15 @@ const Nav = () => {
             </div>
             <div class=" hidden lg:flex">
               <ul class="gap-10 menu-horizontal">
-                {categories?.map((item) => (
-                  <li>
-                    <Link to={`/${item.name}`} className="text-lg py-0">
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
+                {filtered?.map((item) => {
+                  return (
+                    <li>
+                      <Link to={`/${item.name}`} className="text-lg py-0">
+                        {item.name}
+                      </Link>
+                    </li>
+                  );
+                })}
                 {/* <li>
                   <Link to="/" className="text-lg py-0">
                     নিউস

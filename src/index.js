@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 
 export const ServerUrlContext = React.createContext();
+
 const serverUrl = "http://localhost:5000";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
