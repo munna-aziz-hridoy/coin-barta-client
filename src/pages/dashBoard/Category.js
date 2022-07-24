@@ -1,15 +1,15 @@
-import { faPenToSquare, faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useContext, useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import ReactPaginate from "react-paginate";
+import { ToastContainer, toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import useCategory from "../../hooks/useCategory";
 import DashBoardNav from "./DashBoardNav";
 
 const Category = () => {
-  // const [categories, setImages] = useState([]);
   const categoryRef = useRef();
   const [refech, setRefech] = useState(false);
   const [errorText, setErrorText] = useState("");
@@ -19,12 +19,6 @@ const Category = () => {
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 6;
-
-  // useEffect(() => {
-  //   fetch("https://jsonplaceholder.typicode.com/albums/1/photos")
-  //     .then((res) => res.json())
-  //     .then((data) => setImages(data));
-  // }, []);
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -59,13 +53,13 @@ const Category = () => {
       .then((data) => {
         setRefech(!refech);
         console.log(data);
+        categoryField.value = "";
+        toast.success("Category Added");
       });
   };
 
   const handleUpdateCategory = (id) => {
-    const updatedCategoryField = document.getElementById(
-      `update-category-${id}`
-    );
+    const updatedCategoryField = document.getElementById("update-category");
     if (!updatedCategoryField.value) {
       return setErrorText("Please add any category");
     }
@@ -80,7 +74,7 @@ const Category = () => {
       .then((res) => res.json())
       .then((data) => {
         setRefech(!refech);
-        console.log(data);
+        toast.success("Category Updated");
       });
   };
 
@@ -98,7 +92,7 @@ const Category = () => {
   return (
     <>
       <DashBoardNav />
-      <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-hidden">
+      <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-x-auto relative">
         <div className="mx-auto container bg-gray-800 text-gray-500 shadow rounded">
           <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
             <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
@@ -161,12 +155,13 @@ const Category = () => {
                       class="input input-bordered  w-full max-w-xs"
                     />
 
-                    <button
+                    <label
+                      for="my-modal-category"
                       onClick={handleAddCategory}
                       class="btn ml-5 btn-outline"
                     >
                       Add
-                    </button>
+                    </label>
                     {errorText && (
                       <p className="text-sm text-red-400 text-center">
                         {errorText}
@@ -188,7 +183,9 @@ const Category = () => {
                   <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Creating Date
                   </th>
-
+                  <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                    Creating Time
+                  </th>
                   <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Edit
                   </th>
@@ -206,7 +203,6 @@ const Category = () => {
                     .split(".")[0];
                   return (
                     <tr
-                      // key={product._id}
                       className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
                       data-aos="fade-right"
                       data-aos-duration="2000"
@@ -216,18 +212,13 @@ const Category = () => {
                       </td>
 
                       <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                        <span>{date}</span> <span>{time}</span>
+                        {date}
                       </td>
-
+                      <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                        {time}
+                      </td>
                       <td className="pr-8 relative">
-                        <button
-                          // onClick={() =>
-                          //     handleDelete(
-                          //         product._id
-                          //     )
-                          // }
-                          className=" cursor-pointer focus:outline-none"
-                        >
+                        <button className=" cursor-pointer focus:outline-none">
                           <label
                             for={`my-modal-edit-${category._id}`}
                             className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
@@ -274,18 +265,19 @@ const Category = () => {
                                   type="text"
                                   placeholder="New Category Name"
                                   class="input input-bordered w-full "
-                                  id={`update-category-${category?._id}`}
+                                  id="update-category"
                                 />
                               </div>
 
-                              <button
+                              <label
+                                for={`my-modal-edit-${category._id}`}
                                 onClick={() =>
                                   handleUpdateCategory(category?._id)
                                 }
                                 class="btn ml-5 mt-10 btn-outline"
                               >
                                 Update
-                              </button>
+                              </label>
                             </div>
                           </div>
                         </button>
@@ -295,27 +287,10 @@ const Category = () => {
                         <input
                           type="checkbox"
                           class="toggle toggle-primary"
-                          // defaultChecked={category?.publish}
                           checked={category?.publish}
                           onChange={() => handleCategoryPublish(category?._id)}
                         />
                       </td>
-                      {/* <td className="pr-8 relative">
-                                                <button
-                                                    // onClick={() =>
-                                                    //     handleDelete(
-                                                    //         product._id
-                                                    //     )
-                                                    // }
-                                                    className=" cursor-pointer focus:outline-none"
-                                                >
-                                                    <div className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-red-600 duration-500 cursor-pointer">
-                                                        <FontAwesomeIcon
-                                                            icon={faTrashCan}
-                                                        />
-                                                    </div>
-                                                </button>
-                                            </td> */}
                     </tr>
                   );
                 })}
@@ -326,19 +301,6 @@ const Category = () => {
       </div>
       <div>
         <>
-          {/* <div className="grid gap-10 grid-cols-3 max-w-7xl mx-auto my-20">
-            {currentItems.map((img) => {
-              return (
-                <div>
-                  <img
-                    className="max-w-xs rounded-lg"
-                    src={img.url}
-                    alt={img.title}
-                  />
-                </div>
-              );
-            })}
-          </div> */}
           <ReactPaginate
             breakLabel="..."
             nextLabel="next >"

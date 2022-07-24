@@ -4,7 +4,7 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { ServerUrlContext } from "../..";
-
+import { toast } from "react-toastify";
 const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const serverUrl = useContext(ServerUrlContext);
@@ -26,14 +26,16 @@ const Login = () => {
       .then((res) => res.json())
       .then((data) => {
         const { token } = data;
-        console.log(data);
         sessionStorage.setItem("accessToken", token);
+        if (!data?.success) {
+          toast.error("Something is wrong ");
+        }
         navigate("/dashboard");
       });
   };
 
   return (
-    <div className="flex justify-center items-center ">
+    <div className="flex md:my-44 justify-center items-center ">
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
           <h2 className="text-center text-2xl font-bold ">Login</h2>
