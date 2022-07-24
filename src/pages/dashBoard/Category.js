@@ -9,7 +9,7 @@ import useCategory from "../../hooks/useCategory";
 import DashBoardNav from "./DashBoardNav";
 
 const Category = () => {
-  const [images, setImages] = useState([]);
+  // const [categories, setImages] = useState([]);
   const categoryRef = useRef();
   const [refech, setRefech] = useState(false);
   const [errorText, setErrorText] = useState("");
@@ -20,21 +20,21 @@ const Category = () => {
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 6;
 
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/albums/1/photos")
-      .then((res) => res.json())
-      .then((data) => setImages(data));
-  }, []);
+  // useEffect(() => {
+  //   fetch("https://jsonplaceholder.typicode.com/albums/1/photos")
+  //     .then((res) => res.json())
+  //     .then((data) => setImages(data));
+  // }, []);
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    setCurrentItems(images.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(images.length / itemsPerPage));
-  }, [itemOffset, itemsPerPage, images]);
+    setCurrentItems(categories.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(categories.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, categories]);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % images.length;
+    const newOffset = (event.selected * itemsPerPage) % categories.length;
     console.log(
       `User requested page number ${event.selected}, which is offset ${newOffset}`
     );
@@ -199,7 +199,7 @@ const Category = () => {
                 </tr>
               </thead>
               <tbody>
-                {categories?.map((category) => {
+                {currentItems?.map((category) => {
                   const date = category?.createdDate.split("T")[0];
                   const time = category?.createdDate
                     .split("T")[1]
@@ -295,7 +295,8 @@ const Category = () => {
                         <input
                           type="checkbox"
                           class="toggle toggle-primary"
-                          defaultChecked={category?.publish}
+                          // defaultChecked={category?.publish}
+                          checked={category?.publish}
                           onChange={() => handleCategoryPublish(category?._id)}
                         />
                       </td>
@@ -325,7 +326,7 @@ const Category = () => {
       </div>
       <div>
         <>
-          <div className="grid gap-10 grid-cols-3 max-w-7xl mx-auto my-20">
+          {/* <div className="grid gap-10 grid-cols-3 max-w-7xl mx-auto my-20">
             {currentItems.map((img) => {
               return (
                 <div>
@@ -337,7 +338,7 @@ const Category = () => {
                 </div>
               );
             })}
-          </div>
+          </div> */}
           <ReactPaginate
             breakLabel="..."
             nextLabel="next >"

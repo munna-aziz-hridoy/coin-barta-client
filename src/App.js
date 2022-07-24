@@ -1,5 +1,4 @@
 import "./App.css";
-// import { React } from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/login/Login";
 import News from "./pages/body/News";
@@ -14,12 +13,9 @@ import UserDash from "./pages/dashBoard/UserDash";
 import UpdateEmail from "./pages/dashBoard/UpdateEmail";
 import AddNews from "./pages/dashBoard/AddNews";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useState } from "react";
-
-// export const RefetchContext = React.createContext();
+import { ToastContainer } from "react-toastify";
 
 function App() {
-  const [refech, setRefech] = useState(false);
   return (
     <div>
       <Title />
@@ -79,6 +75,7 @@ function App() {
         />
       </Routes>
       <Footer />
+      <ToastContainer />
     </div>
   );
 }

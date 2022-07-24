@@ -12,8 +12,8 @@ const NewsCard = () => {
             </a>
             <div class="p-5">
                 <a href="#">
-                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
-                        আমার সোনার বাংলা। আমার সোনার বাংলা।আমার সোনার বাংলা।
+                    <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 ">
+                        আমার সোনার বাংলা। আমি তোমায় ভালোবাসি।
                     </h5>
                 </a>
                 <p class="mb-3 font-normal">
