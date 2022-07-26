@@ -15,6 +15,7 @@ import AddNews from "./pages/dashBoard/AddNews";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import TestNews from "./pages/dashBoard/TestNews";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Title />
       <Routes>
         <Route path="/" element={<News />} />
+        <Route path="/test" element={<TestNews />} />
         <Route path="/tutorial" element={<Tutorial />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<Login />} />
