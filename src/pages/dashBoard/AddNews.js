@@ -1,6 +1,10 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import DashBoardNav from './DashBoardNav'
+
+import { Editor } from 'react-draft-wysiwyg'
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { EditorState } from 'draft-js'
 const AddNews = () => {
     const {
         handleSubmit,
@@ -21,138 +25,78 @@ const AddNews = () => {
     }
 
     return (
-        <div className="w-[600px] mx-auto border-2 my-20 px-10">
-            <h2 className="text-3xl md:text-5xl font-bold text-neutral text-center my-20 capitalize">
-                Add News
-            </h2>
-            <form onSubmit={handleSubmit(handleAddProduct)}>
-                <label className="label">
-                    <span className="label-text capitalize text-neutral">
-                        product name
-                    </span>
-                </label>
-                <input
-                    {...register('product_name', {
-                        required: 'Please Enter Product Name',
-                    })}
-                    type="text"
-                    placeholder="Name"
-                    className="input input-bordered input-accent rounded-md  w-full"
-                />
-                {errors.product_name ? (
-                    <p className="text-xs text-red-300 my-2">
-                        {errors?.product_name?.message}
-                    </p>
-                ) : (
-                    ''
-                )}
-
-                <label className="label">
-                    <span className="label-text capitalize text-neutral">
-                        price
-                    </span>
-                </label>
-                <input
-                    {...register('price', {
-                        required: 'Please Enter Product Price',
-                    })}
-                    type="number"
-                    placeholder="price"
-                    className="input input-bordered input-accent rounded-md  w-full"
-                />
-                {errors.price ? (
-                    <p className="text-xs text-red-300 my-2">
-                        {errors?.price?.message}
-                    </p>
-                ) : (
-                    ''
-                )}
-
-                <label className="label">
-                    <span className="label-text capitalize text-neutral">
-                        available quantity
-                    </span>
-                </label>
-                <input
-                    {...register('available', {
-                        required: 'How much product you have?',
-                    })}
-                    type="number"
-                    placeholder="Available Quantity"
-                    className="input input-bordered input-accent rounded-md w-full"
-                />
-                {errors.available ? (
-                    <p className="text-xs text-red-300 my-2">
-                        {errors?.available?.message}
-                    </p>
-                ) : (
-                    ''
-                )}
-
-                <label className="label">
-                    <span className="label-text capitalize text-neutral">
-                        min order
-                    </span>
-                </label>
-                <input
-                    {...register('minOrder', {})}
-                    type="number"
-                    placeholder="Minimum Order Quantity"
-                    className="input input-bordered input-accent rounded-md  w-full"
-                />
-                {errors.minOrder ? (
-                    <p className="text-xs text-red-300 my-2">
-                        {errors?.minOrder?.message}
-                    </p>
-                ) : (
-                    ''
-                )}
-
-                <label className="label">
-                    <span className="label-text capitalize text-neutral">
-                        Upload Image
-                    </span>
-                </label>
-                <input
-                    {...register('productImg', {
-                        required: 'Please upload any image',
-                    })}
-                    type="file"
-                    className="w-fit p-2 border-2 border-neutral text-neutral font-bold rounded-lg"
-                />
-                {errors.productImg ? (
-                    <p className="text-xs text-red-300 my-2">
-                        {errors?.productImg?.message}
-                    </p>
-                ) : (
-                    ''
-                )}
-
-                <label className="label">
-                    <span className="label-text capitalize text-neutral">
-                        Description
-                    </span>
-                </label>
-                <textarea
-                    {...register('body', {
-                        required: 'Description is needed',
-                    })}
-                    className="textarea textarea-accent w-full"
-                    placeholder="Description"
-                ></textarea>
-                {errors.body ? (
-                    <p className="text-xs text-red-300 my-2">
-                        {errors?.body?.message}
-                    </p>
-                ) : (
-                    ''
-                )}
-                <input
-                    type="submit"
-                    value="Add Product"
-                    className="capitalize text-white bg-[#333] hover:bg-white hover:text-[#333] border-2 border-primary hover:border-white cursor-pointer duration-200 rounded-lg font-semibold px-10 py-3 mt-5"
-                />
-            </form>
+        <div className="flex md:h-screen justify-center items-center ">
+            <div className="card w-full bg-base-100 shadow-xl max-w-3xl pb-5">
+                <div className="card-body ">
+                    <h2 className="text-center m-5 text-2xl font-bold ">
+                        Add a News
+                    </h2>
+                    <div className="flex justify-center items-center w-full md:w-[40rem] md:mx-auto">
+                        <form action="">
+                            <div class="form-control w-full ">
+                                <label class="label">
+                                    <span class="label-text">Title</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    placeholder="Type here"
+                                    class="input input-bordered w-full "
+                                />
+                            </div>
+                            <div>
+                                <label class="label">
+                                    <span class="label-text">Description</span>
+                                </label>
+                                <textarea
+                                    class="textarea textarea-bordered"
+                                    placeholder="Description"
+                                ></textarea>
+                                <Editor
+                                    editorState={EditorState}
+                                    toolbarClassName="toolbarClassName"
+                                    wrapperClassName="wrapperClassName"
+                                    editorClassName="editorClassName"
+                                    onEditorStateChange={
+                                        this.onEditorStateChange
+                                    }
+                                />
+                            </div>
+                            <div>
+                                <div class="form-control w-full max-w-xs">
+                                    <label class="label">
+                                        <span class="label-text">
+                                            Select Category
+                                        </span>
+                                    </label>
+                                    <select class="select select-bordered">
+                                        <option disabled selected>
+                                            Select One
+                                        </option>
+                                        <option>Star Wars</option>
+                                        <option>Harry Potter</option>
+                                        <option>Lord of the Rings</option>
+                                        <option>Planet of the Apes</option>
+                                        <option>Star Trek</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="label">
+                                        <span class="label-text">
+                                            Select Img
+                                        </span>
+                                    </label>
+                                    <input type="file" name="" id="" />
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn btn-outline mt-5">
+                                    Upload
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
