@@ -5,11 +5,10 @@ import { useForm } from 'react-hook-form'
 import { ServerUrlContext } from '../..'
 import useGetUser from '../../hooks/useGetUser'
 import { toast } from 'react-toastify'
+import Spinner from '../../components/Spinner'
 
 const UpdateEmail = () => {
     const [showPass, setShowPass] = useState(false)
-    // const [showNewPass, setShowNewPass] = useState(false)
-    // const [errorText, setErrorText] = useState("");
     const serverUrl = useContext(ServerUrlContext)
     const [user, loading] = useGetUser(serverUrl)
 
@@ -60,7 +59,7 @@ const UpdateEmail = () => {
     }
 
     if (loading) {
-        return <h2>Loading</h2>
+        return <Spinner />
     }
 
     return (

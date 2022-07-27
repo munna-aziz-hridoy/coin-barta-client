@@ -94,10 +94,10 @@ const Category = () => {
     <>
       <DashBoardNav />
       <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-x-auto relative">
-        <div className="mx-auto container bg-gray-800 text-gray-500 shadow rounded">
+        <div className="mx-auto container bg-slate-100 text-gray-500 shadow rounded">
           <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
             <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
-              <div className="flex items-center text-gray-200 text-2xl">
+              <div className="flex items-center text-gray-700 text-2xl">
                 Category
               </div>
             </div>
@@ -176,22 +176,20 @@ const Category = () => {
           <div className="w-full overflow-hidden ">
             <table className="min-w-full bg-white    ">
               <thead>
-                <tr className="w-full h-16 border-gray-300  bg-gray-800  border-b py-8">
-                  <th className="pl-8 text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                <tr className="w-full h-16 border-gray-300  bg-slate-100  border-b py-8">
+                  <th className="pl-8 text-gray-700 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Name
                   </th>
 
-                  <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                  <th className="text-gray-700 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Creating Date
                   </th>
-                  <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
-                    Creating Time
-                  </th>
-                  <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+
+                  <th className="text-gray-700 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                     Edit
                   </th>
 
-                  <td className="text-gray-200 md:font-bold  font-normal    pr-8 text-left text-sm tracking-normal leading-4">
+                  <td className="text-gray-700 md:font-bold  font-normal    pr-8 text-left text-sm tracking-normal leading-4">
                     Publish
                   </td>
                 </tr>
@@ -199,29 +197,33 @@ const Category = () => {
               <tbody>
                 {currentItems?.map((category) => {
                   const { _id, name, createdDate, publish } = category;
-                  const date = createdDate.split("T")[0];
-                  const time = createdDate.split("T")[1].split(".")[0];
+                  const timeArr = createdDate.split(" ");
+                  const date = `${timeArr[1]} ${timeArr[2]} ${timeArr[3]}`;
+                  const time = timeArr[4];
+                  // console.log(date);
+                  // const time = createdDate.split("T")[1].split(".")[0];
+
                   return (
                     <tr
-                      className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
+                      className="h-24 odd:bg-slate-50  even:bg-slate-100 border-gray-300 border-b"
                       data-aos="fade-right"
                       data-aos-duration="2000"
                     >
-                      <td className="text-sm px-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                      <td className="text-sm px-6 whitespace-no-wrap text-gray-700 md:font-semibold font-normal   tracking-normal leading-4">
                         {name}
                       </td>
 
-                      <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                        {date}
+                      <td className="text-sm pr-6 whitespace-no-wrap text-gray-700 md:font-semibold font-normal   tracking-normal leading-4">
+                        <span>Date: {date}</span>
+                        <br />
+                        <span>Time: {time}</span>
                       </td>
-                      <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                        {time}
-                      </td>
+
                       <td className="pr-8 relative">
                         <button className=" cursor-pointer focus:outline-none">
                           <label
                             for={`my-modal-edit-${_id}`}
-                            className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
+                            className="text-gray-700 p-2 border-transparent rounded-sm hover:text-slate-100 border md:font-bold  font-normal hover:bg-gray-800 duration-500 cursor-pointer"
                           >
                             <FontAwesomeIcon icon={faPenToSquare} />
                           </label>

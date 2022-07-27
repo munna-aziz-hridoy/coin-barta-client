@@ -13,6 +13,7 @@ import UserDash from "./pages/dashBoard/UserDash";
 import UpdateEmail from "./pages/dashBoard/UpdateEmail";
 import AddNews from "./pages/dashBoard/AddNews";
 import ProtectedRoute from "./components/ProtectedRoute";
+import NewsDetails from "./components/NewsDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -22,6 +23,7 @@ function App() {
       <Title />
       <Routes>
         <Route path="/" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetails />} />
 
         <Route path="/tutorial" element={<Tutorial />} />
         <Route path="/contact" element={<Contact />} />

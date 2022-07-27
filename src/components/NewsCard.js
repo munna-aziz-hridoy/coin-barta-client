@@ -1,26 +1,32 @@
-import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock, faGripVertical } from "@fortawesome/free-solid-svg-icons";
 
-const NewsCard = () => {
+import React from "react";
+import { Link } from "react-router-dom";
+
+const NewsCard = ({ news }) => {
+  console.log(news);
   return (
-    <div className="max-w-xs bg-white rounded-lg border border-gray-200 shadow-md ">
-      <a href="#">
-        <img
-          className="rounded-t-lg"
-          src="https://images.unsplash.com/photo-1495020689067-958852a7765e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1169&q=80"
-          alt=""
-        />
-      </a>
-      <div className="p-5">
-        <a href="#">
-          <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 ">
-            আমার সোনার বাংলা। আমি তোমায় ভালোবাসি।
+    <div class="max-w-xs bg-white rounded border border-gray-200 shadow-md ">
+      <Link to={`/news/${news._id}`}>
+        <img class="rounded-t" src={news?.image} alt="" />
+      </Link>
+      <div class="p-5">
+        <Link to={`/news/${news._id}`}>
+          <h5 class="mb-2 text-lg hover:underline font-bold tracking-tight text-gray-900 ">
+            {news?.title}
           </h5>
-        </a>
-        <p className="mb-3 font-normal">
-          আমার সোনার বাংলা।আমার সোনার বাংলা।আমার সোনার বাংলা।আমার সোনার
-          বাংলা।আমার সোনার বাংলা।আমার সোনার বাংলা।আমার সোনার বাংলা।আমার সোনার
-          বাংলা।আমার সোনার বাংলা।আমার সোনার বাংলা।
-        </p>
+        </Link>
+        <div className="w-full flex justify-between items-center mt-6">
+          <p className="flex justify-start items-center gap-2">
+            <FontAwesomeIcon icon={faGripVertical} />
+            <span>{news?.category}</span>
+          </p>
+          <p className="flex justify-start items-center gap-2">
+            <FontAwesomeIcon icon={faClock} />
+            <span>{news?.createDate.split("T")[0]}</span>
+          </p>
+        </div>
       </div>
     </div>
   );
