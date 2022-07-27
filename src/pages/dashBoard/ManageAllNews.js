@@ -7,7 +7,7 @@ const ManageAllNews = () => {
         <>
             <DashBoardNav />
             <div className="py-20  bg-white  md:min-h-[110vh] overflow-hidden">
-                <div className="mx-auto container bg-gray-800 text-gray-500 shadow rounded">
+                <div className="mx-auto overflow-scroll container bg-gray-800 text-gray-500 shadow rounded">
                     <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
                         <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
                             <div className="flex items-center text-gray-200 text-2xl">
@@ -43,7 +43,7 @@ const ManageAllNews = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full overflow-hidden ">
+                    <div className="w-full">
                         <table className="min-w-full bg-white    ">
                             <thead>
                                 <tr className="w-full h-16 border-gray-300  bg-gray-800  border-b py-8">

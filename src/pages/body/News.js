@@ -9,6 +9,7 @@ const News = () => {
     const [itemOffset, setItemOffset] = useState(0)
     const [images, setImages] = useState([])
     const itemsPerPage = 6
+
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage
         console.log(`Loading items from ${itemOffset} to ${endOffset}`)
@@ -33,7 +34,7 @@ const News = () => {
         <>
             <Nav />
             <section className="flex max-w-7xl mx-auto ">
-                <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
+                <div className=" grid grid-cols-1 ml-5 xl:ml-0 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
                     <NewsCard />
                     <NewsCard />
                     <NewsCard />
@@ -74,7 +75,7 @@ const News = () => {
                     <NewsCard />
                     <NewsCard />
                 </div>
-                <div className="mx-5  lg:max-w-[300px]">
+                <div className="mx-5 max-w-[150px] lg:max-w-[300px]">
                     <img
                         className="mt-10 "
                         src="https://trickbd.com/wp-content/uploads/2020/02/24/5e53cb86d908f.jpg"

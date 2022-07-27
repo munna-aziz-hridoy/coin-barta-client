@@ -77,7 +77,10 @@ const DashBoardNav = () => {
                         </div>
                     </div>
                     <div className="navbar-end">
-                        <button onClick={handleLogOut} className="btn">
+                        <button
+                            onClick={handleLogOut}
+                            className="btn bg-slate-100 text-gray-900"
+                        >
                             Log Out
                         </button>
                     </div>

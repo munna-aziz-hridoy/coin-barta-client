@@ -11,14 +11,14 @@ import DashBoardNav from './DashBoardNav'
 
 const Category = () => {
     const categoryRef = useRef()
-    const [refech, setRefech] = useState(false)
+    const [refetch, setRefetch] = useState(false)
     const [errorText, setErrorText] = useState('')
     const serverUrl = useContext(ServerUrlContext)
-    const [categories] = useCategory(serverUrl, refech)
+    const [categories] = useCategory(serverUrl, refetch)
     const [currentItems, setCurrentItems] = useState([])
     const [pageCount, setPageCount] = useState(0)
     const [itemOffset, setItemOffset] = useState(0)
-    const itemsPerPage = 6
+    const itemsPerPage = 10
 
     useEffect(() => {
         const endOffset = itemOffset + itemsPerPage
@@ -53,7 +53,7 @@ const Category = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                setRefech(!refech)
+                setRefetch(!refetch)
                 console.log(data)
                 categoryField.value = ''
                 toast.success('Category Added')
@@ -75,7 +75,8 @@ const Category = () => {
         })
             .then((res) => res.json())
             .then((data) => {
-                setRefech(!refech)
+                console.log(data)
+                setRefetch(!refetch)
                 toast.success('Category Updated')
             })
     }
@@ -87,7 +88,7 @@ const Category = () => {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data)
-                setRefech(!refech)
+                setRefetch(!refetch)
             })
     }
 
@@ -95,11 +96,11 @@ const Category = () => {
         <>
             <DashBoardNav />
             <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-x-auto relative">
-                <div className="mx-auto container bg-gray-800 text-gray-500 shadow rounded">
+                <div className="mx-auto overflow-scroll md:overflow-hidden container bg-gray-100 text-gray-900 shadow">
                     <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
                         <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
-                            <div className="flex items-center text-gray-200 text-2xl">
-                                Category
+                            <div className="flex items-center font-bold text-2xl">
+                                Category : {categories.length}
                             </div>
                         </div>
                         <div className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
@@ -174,25 +175,25 @@ const Category = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full overflow-hidden ">
-                        <table className="min-w-full bg-white    ">
+                    <div className="w-full">
+                        <table className="min-w-full bg-gray-900    ">
                             <thead>
-                                <tr className="w-full h-16 border-gray-300  bg-gray-800  border-b py-8">
-                                    <th className="pl-8 text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                                <tr className="w-full h-16 border-gray-900  bg-gray-100  border-b py-8">
+                                    <th className="pl-8 text-gray-900 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                                         Name
                                     </th>
 
-                                    <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                                    <th className="text-gray-900 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                                         Creating Date
                                     </th>
-                                    <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                                    <th className="text-gray-900 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                                         Creating Time
                                     </th>
-                                    <th className="text-gray-200 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
+                                    <th className="text-gray-900 md:font-bold  font-normal    pr-6 text-left text-sm tracking-normal leading-4">
                                         Edit
                                     </th>
 
-                                    <td className="text-gray-200 md:font-bold  font-normal    pr-8 text-left text-sm tracking-normal leading-4">
+                                    <td className="text-gray-900 md:font-bold  font-normal    pr-8 text-left text-sm tracking-normal leading-4">
                                         Publish
                                     </td>
                                 </tr>
@@ -206,25 +207,25 @@ const Category = () => {
                                         .split('.')[0]
                                     return (
                                         <tr
-                                            className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
+                                            className="h-24 odd:bg-gray-50  even:bg-gray-100 border-gray-300 border-b"
                                             data-aos="fade-right"
                                             data-aos-duration="2000"
                                         >
-                                            <td className="text-sm px-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                                            <td className="text-sm px-6 whitespace-no-wrap text-gray-900 md:font-semibold font-normal   tracking-normal leading-4">
                                                 {category?.name}
                                             </td>
 
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-gray-900 md:font-semibold font-normal   tracking-normal leading-4">
                                                 {date}
                                             </td>
-                                            <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
+                                            <td className="text-sm pr-6 whitespace-no-wrap text-gray-900 md:font-semibold font-normal   tracking-normal leading-4">
                                                 {time}
                                             </td>
                                             <td className="pr-8 relative">
                                                 <button className=" cursor-pointer focus:outline-none">
                                                     <label
                                                         for={`my-modal-edit-${category._id}`}
-                                                        className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
+                                                        className="text-gray-900 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600  hover:text-gray-100 duration-500 cursor-pointer"
                                                     >
                                                         <FontAwesomeIcon
                                                             icon={faPenToSquare}

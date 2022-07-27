@@ -6,24 +6,6 @@ import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { EditorState } from 'draft-js'
 const AddNews = () => {
-    const {
-        handleSubmit,
-        register,
-        reset,
-        formState: { errors },
-    } = useForm()
-
-    const handleAddProduct = async (inputData) => {
-        const { productImg, ...rest } = inputData
-        const uploadedImg = productImg[0]
-        const formData = new FormData()
-        formData.append('image', uploadedImg)
-        const imgbbAPIkey = '52ad69453d156ba9876338195fd1a8a5'
-        const url = `https://api.imgbb.com/1/upload?key=${imgbbAPIkey}`
-
-        reset()
-    }
-
     return (
         <div className="flex md:h-screen justify-center items-center ">
             <div className="card w-full bg-base-100 shadow-xl max-w-3xl pb-5">
