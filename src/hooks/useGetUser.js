@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useEmail = (serverUrl) => {
+const useGetUser = (serverUrl) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -25,4 +25,4 @@ const useEmail = (serverUrl) => {
   return [user, loading];
 };
 
-export default useEmail;
+export default useGetUser;

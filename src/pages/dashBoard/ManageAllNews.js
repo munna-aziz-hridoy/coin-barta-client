@@ -1,6 +1,6 @@
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import useNews from "../../hooks/useNews";
@@ -8,7 +8,15 @@ import DashBoardNav from "./DashBoardNav";
 
 const ManageAllNews = () => {
   const serverUrl = useContext(ServerUrlContext);
-  const [news] = useNews(serverUrl);
+  const [refetch, setRefetch] = useState(false);
+  const [news] = useNews(serverUrl, refetch);
+
+  const handleNewsPublish = (id) => {
+    fetch(`${serverUrl}/api/v1/news/publish-news?id=${id}`, { method: "PATCH" })
+      .then((res) => res.json())
+      .then((data) => setRefetch(!refetch));
+  };
+
   return (
     <>
       <DashBoardNav />
@@ -79,7 +87,8 @@ const ManageAllNews = () => {
               </thead>
               <tbody>
                 {news?.map((item) => {
-                  const { title, createDate, image, _id, category } = item;
+                  const { title, createDate, image, _id, category, publish } =
+                    item;
                   const date = createDate.split("T")[0];
                   const time = createDate.split("T")[1].split(".")[0];
                   console.log(createDate, date, time);
@@ -96,7 +105,7 @@ const ManageAllNews = () => {
                         </div>
                       </td>
                       <td className="pr-8 text-left text-sm tracking-normal leading-4">
-                        {title}
+                        <Link to={`/news/${_id}`}>{title}</Link>
                       </td>
                       <td className="pr-8 text-left text-sm tracking-normal leading-4">
                         {category}
@@ -107,16 +116,19 @@ const ManageAllNews = () => {
                         <span>Time: {time}</span>
                       </td>
                       <td className="pr-8 text-left text-sm tracking-normal leading-4">
-                        <button className="text-gray-700 p-2 border-transparent rounded-sm border md:font-bold  font-normal hover:bg-gray-800 hover:text-slate-100 duration-500 cursor-pointer">
+                        <Link
+                          to={`/update-news/${_id}`}
+                          className="text-gray-700 p-2 border-transparent rounded-sm border md:font-bold  font-normal hover:bg-gray-800 hover:text-slate-100 duration-500 cursor-pointer"
+                        >
                           <FontAwesomeIcon icon={faPenToSquare} />
-                        </button>
+                        </Link>
                       </td>
                       <td className="pr-8 relative">
                         <input
                           type="checkbox"
                           className="toggle toggle-primary"
-                          //   checked={publish}
-                          //   onChange={() => handleCategoryPublish(_id)}
+                          checked={publish}
+                          onChange={() => handleNewsPublish(_id)}
                         />
                       </td>
                     </tr>

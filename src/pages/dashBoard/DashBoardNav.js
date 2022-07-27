@@ -53,8 +53,8 @@ const DashBoardNav = () => {
             <div className=" hidden lg:flex">
               <ul className="gap-10 menu-horizontal">
                 <li>
-                  <Link to="/user" className="text-lg py-0">
-                    ইউজার
+                  <Link to="/manageAll" className="text-lg py-0">
+                    ম্যানেজ অল নিউস
                   </Link>
                 </li>
                 <li>
@@ -63,8 +63,8 @@ const DashBoardNav = () => {
                   </Link>
                 </li>
                 <li>
-                  <Link to="/manageAll" className="text-lg py-0">
-                    ম্যানেজ অল নিউস
+                  <Link to="/user" className="text-lg py-0">
+                    ইউজার
                   </Link>
                 </li>
               </ul>
