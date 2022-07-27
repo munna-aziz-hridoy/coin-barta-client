@@ -13,7 +13,7 @@ const NewsCard = () => {
             </Link>
             <div class="p-5">
                 <Link to="">
-                    <h5 class="mb-2 text-lg underline font-bold tracking-tight text-gray-900 ">
+                    <h5 class="mb-2 text-lg hover:underline font-bold tracking-tight text-gray-900 ">
                         আমার সোনার বাংলা। আমি তোমায় ভালোবাসি।
                     </h5>
                 </Link>

@@ -2,12 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Footer = () => {
-    const d = new Date()
-    let year = d.getFullYear()
+    const date = new Date()
+    let year = date.getFullYear()
     return (
         <div className="bg-[#1A1B1D]">
             <footer class="p-4 max-w-7xl mx-auto sm:p-6 ">
-                {/* <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" /> */}
+                {/* <hr class="my-6 border-gray-200 sm:mx-aut lg:my-8" /> */}
                 <div class="sm:flex sm:items-center sm:justify-between">
                     <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                         © {year} {''}
