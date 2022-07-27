@@ -1,16 +1,15 @@
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import React, { useContext, useState, useEffect } from "react";
+
 import ReactPaginate from "react-paginate";
-import { ToastContainer, toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import { ServerUrlContext } from "../..";
 import useCategory from "../../hooks/useCategory";
 import DashBoardNav from "./DashBoardNav";
 
 const Category = () => {
-  const categoryRef = useRef();
   const [refech, setRefech] = useState(false);
   const [errorText, setErrorText] = useState("");
   const serverUrl = useContext(ServerUrlContext);
@@ -59,7 +58,9 @@ const Category = () => {
   };
 
   const handleUpdateCategory = (id) => {
-    const updatedCategoryField = document.getElementById("update-category");
+    const updatedCategoryField = document.getElementById(
+      `update-category-${id}`
+    );
     if (!updatedCategoryField.value) {
       return setErrorText("Please add any category");
     }
@@ -133,17 +134,17 @@ const Category = () => {
                 <input
                   type="checkbox"
                   id="my-modal-category"
-                  class="modal-toggle"
+                  className="modal-toggle"
                 />
-                <div class="modal modal-bottom sm:modal-middle">
-                  <div class="modal-box relative">
+                <div className="modal modal-bottom sm:modal-middle">
+                  <div className="modal-box relative">
                     <label
                       for="my-modal-category"
-                      class="btn btn-sm btn-circle absolute right-2 top-2"
+                      className="btn btn-sm btn-circle absolute right-2 top-2"
                     >
                       ✕
                     </label>
-                    <h3 class="font-bold text-lg mb-4">
+                    <h3 className="font-bold text-lg mb-4">
                       Please Input Category Name
                     </h3>
 
@@ -152,13 +153,13 @@ const Category = () => {
                       type="text"
                       name="category"
                       placeholder="Category Name"
-                      class="input input-bordered  w-full max-w-xs"
+                      className="input input-bordered  w-full max-w-xs"
                     />
 
                     <label
                       for="my-modal-category"
                       onClick={handleAddCategory}
-                      class="btn ml-5 btn-outline"
+                      className="btn ml-5 btn-outline"
                     >
                       Add
                     </label>
@@ -197,10 +198,9 @@ const Category = () => {
               </thead>
               <tbody>
                 {currentItems?.map((category) => {
-                  const date = category?.createdDate.split("T")[0];
-                  const time = category?.createdDate
-                    .split("T")[1]
-                    .split(".")[0];
+                  const { _id, name, createdDate, publish } = category;
+                  const date = createdDate.split("T")[0];
+                  const time = createdDate.split("T")[1].split(".")[0];
                   return (
                     <tr
                       className="h-24 odd:bg-gray-600  even:bg-gray-800 border-gray-300 border-b"
@@ -208,7 +208,7 @@ const Category = () => {
                       data-aos-duration="2000"
                     >
                       <td className="text-sm px-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
-                        {category?.name}
+                        {name}
                       </td>
 
                       <td className="text-sm pr-6 whitespace-no-wrap text-gray-200 md:font-semibold font-normal   tracking-normal leading-4">
@@ -220,7 +220,7 @@ const Category = () => {
                       <td className="pr-8 relative">
                         <button className=" cursor-pointer focus:outline-none">
                           <label
-                            for={`my-modal-edit-${category._id}`}
+                            for={`my-modal-edit-${_id}`}
                             className="text-gray-100 p-2 border-transparent rounded-full border md:font-bold  font-normal hover:bg-green-600 duration-500 cursor-pointer"
                           >
                             <FontAwesomeIcon icon={faPenToSquare} />
@@ -228,53 +228,53 @@ const Category = () => {
                           {/* Modal Edit*/}
                           <input
                             type="checkbox"
-                            id={`my-modal-edit-${category._id}`}
-                            class="modal-toggle"
+                            id={`my-modal-edit-${_id}`}
+                            className="modal-toggle"
                           />
-                          <div class="modal modal-bottom sm:modal-middle">
-                            <div class="modal-box relative">
+                          <div className="modal modal-bottom sm:modal-middle">
+                            <div className="modal-box relative">
                               <label
-                                for={`my-modal-edit-${category._id}`}
-                                class="btn btn-sm btn-circle absolute right-2 top-2"
+                                for={`my-modal-edit-${_id}`}
+                                className="btn btn-sm btn-circle absolute right-2 top-2"
                               >
                                 ✕
                               </label>
-                              <h3 class="font-bold text-lg mb-4">
+                              <h3 className="font-bold text-lg mb-4">
                                 Update Category Name
                               </h3>
 
-                              <div class="form-control w-full ">
-                                <label class="label">
-                                  <span class="label-text font-bold">
+                              <div className="form-control w-full ">
+                                <label className="label">
+                                  <span className="label-text font-bold">
                                     Previous
                                   </span>
                                 </label>
                                 <input
                                   type="text"
                                   placeholder="Type here"
-                                  class="input input-bordered w-full"
-                                  value={category?.name}
+                                  className="input input-bordered w-full"
+                                  value={name}
                                   disabled
                                 />
                               </div>
-                              <div class="form-control w-full ">
-                                <label class="label">
-                                  <span class="label-text font-bold">New</span>
+                              <div className="form-control w-full ">
+                                <label className="label">
+                                  <span className="label-text font-bold">
+                                    New
+                                  </span>
                                 </label>
                                 <input
                                   type="text"
                                   placeholder="New Category Name"
-                                  class="input input-bordered w-full "
-                                  id="update-category"
+                                  className="input input-bordered w-full "
+                                  id={`update-category-${_id}`}
                                 />
                               </div>
 
                               <label
-                                for={`my-modal-edit-${category._id}`}
-                                onClick={() =>
-                                  handleUpdateCategory(category?._id)
-                                }
-                                class="btn ml-5 mt-10 btn-outline"
+                                for={`my-modal-edit-${_id}`}
+                                onClick={() => handleUpdateCategory(_id)}
+                                className="btn ml-5 mt-10 btn-outline"
                               >
                                 Update
                               </label>
@@ -286,9 +286,9 @@ const Category = () => {
                       <td className="pr-8 relative">
                         <input
                           type="checkbox"
-                          class="toggle toggle-primary"
-                          checked={category?.publish}
-                          onChange={() => handleCategoryPublish(category?._id)}
+                          className="toggle toggle-primary"
+                          checked={publish}
+                          onChange={() => handleCategoryPublish(_id)}
                         />
                       </td>
                     </tr>

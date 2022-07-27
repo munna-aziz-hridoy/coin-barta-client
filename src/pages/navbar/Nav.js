@@ -20,13 +20,13 @@ const Nav = () => {
   return (
     <section className="bg-[#FABF2C] px-4">
       <div className=" max-w-7xl mx-auto">
-        <div class="navbar p-0">
-          <div class="navbar-start">
-            <div class="dropdown">
-              <label tabindex="0" class="btn btn-ghost lg:hidden">
+        <div className="navbar p-0">
+          <div className="navbar-start">
+            <div className="dropdown">
+              <label tabindex="0" className="btn btn-ghost lg:hidden">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
+                  className="h-5 w-5"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -41,7 +41,7 @@ const Nav = () => {
               </label>
               <ul
                 tabindex="0"
-                class="menu menu-compact dropdown-content mt-3 shadow bg-base-300 rounded-box w-52"
+                className="menu menu-compact dropdown-content mt-3 shadow bg-base-300 rounded-box w-52"
               >
                 <li>
                   <Link to="/" className="text-lg">
@@ -50,8 +50,8 @@ const Nav = () => {
                 </li>
               </ul>
             </div>
-            <div class=" hidden lg:flex">
-              <ul class="gap-10 menu-horizontal">
+            <div className=" hidden lg:flex">
+              <ul className="gap-10 menu-horizontal">
                 {filtered?.map((item) => {
                   return (
                     <li>
@@ -81,16 +81,16 @@ const Nav = () => {
             </div>
           </div>
 
-          <div class="navbar-end">
+          <div className="navbar-end">
             <input
               type="text"
               placeholder="Search"
-              class="py-2 rounded-l-lg pl-3"
+              className="py-2 rounded-l-lg pl-3"
             />
-            <button class="bg-slate-200 rounded-r-lg  p-2">
+            <button className="bg-slate-200 rounded-r-lg  p-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-5"
+                className="h-6 w-5"
                 fill="#fff"
                 viewBox="0 0 24 24"
                 stroke="currentColor"

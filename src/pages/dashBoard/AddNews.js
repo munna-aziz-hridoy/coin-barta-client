@@ -1,72 +1,115 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
-import DashBoardNav from "./DashBoardNav";
+import React, { useContext, useEffect, useState } from "react";
 
-import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { EditorState } from "draft-js";
-const AddNews = () => {
-  const [editorState, setEditorState] = useState();
 
-  console.log(editorState);
+import NewsContentEditor from "../../components/NewsContentEditor";
+import useCategory from "../../hooks/useCategory";
+import { ServerUrlContext } from "../..";
+import { useForm } from "react-hook-form";
+
+const AddNews = () => {
+  const serverUrl = useContext(ServerUrlContext);
+  const [content, setContent] = useState("");
+  const [errorText, setErrorText] = useState("");
+  const [categories] = useCategory(serverUrl);
+  const [publishedCategories, setPublishedCategories] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+
+  useEffect(() => {
+    setPublishedCategories(
+      categories.filter((category) => category.publish === true)
+    );
+  }, [categories]);
+
+  const handleAddNews = (data) => {
+    if (!content) {
+      return setErrorText("Please Add some content");
+    }
+    setErrorText("");
+    const news = { ...data, content };
+    console.log(news);
+  };
+
   return (
-    <div className="flex md:h-screen justify-center items-center ">
-      <div className="card w-full bg-base-100 shadow-xl max-w-3xl pb-5">
+    <div className="flex  justify-center items-center ">
+      <div className="card w-full bg-base-100 shadow-xl  pb-5">
         <div className="card-body ">
           <h2 className="text-center m-5 text-2xl font-bold ">Add a News</h2>
-          <div className="flex justify-center items-center w-full md:w-[40rem] md:mx-auto">
-            <form action="">
-              <div class="form-control w-full ">
-                <label class="label">
-                  <span class="label-text">Title</span>
+          <div className="flex justify-center items-center w-full">
+            <form
+              onSubmit={handleSubmit(handleAddNews)}
+              className="w-full"
+              action=""
+            >
+              <div className="form-control w-full ">
+                <label className="label">
+                  <span className="label-text">Title</span>
                 </label>
                 <input
+                  {...register("title", {
+                    required: "Please Enter a title",
+                  })}
                   type="text"
                   placeholder="Type here"
-                  class="input input-bordered w-full "
+                  className="input input-bordered w-full "
                 />
-              </div>
-              <div>
-                <label class="label">
-                  <span class="label-text">Description</span>
+                <label className="label">
+                  {errors.title && (
+                    <span className="label-text-alt text-red-500">
+                      {errors.title.message}
+                    </span>
+                  )}
                 </label>
-                <textarea
-                  class="textarea textarea-bordered"
-                  placeholder="Description"
-                ></textarea>
-                <Editor
-                  editorState={editorState}
-                  toolbarClassName="toolbarClassName"
-                  wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
-                  onEditorStateChange={setEditorState}
-                />
               </div>
               <div>
-                <div class="form-control w-full max-w-xs">
-                  <label class="label">
-                    <span class="label-text">Select Category</span>
+                <label className="label">
+                  <span className="label-text">Conent</span>
+                </label>
+
+                <NewsContentEditor setContent={setContent} />
+                {errorText && (
+                  <span className="label-text-alt text-red-500">
+                    {errorText}
+                  </span>
+                )}
+              </div>
+              <div>
+                <div className="form-control w-full max-w-xs">
+                  <label className="label">
+                    <span className="label-text">Select Category</span>
                   </label>
-                  <select class="select select-bordered">
-                    <option disabled selected>
-                      Select One
-                    </option>
-                    <option>Star Wars</option>
-                    <option>Harry Potter</option>
-                    <option>Lord of the Rings</option>
-                    <option>Planet of the Apes</option>
-                    <option>Star Trek</option>
+                  <select
+                    {...register("category", {
+                      required: "Please select a category",
+                    })}
+                    className="select select-bordered"
+                    defaultValue={"Select One"}
+                  >
+                    <option disabled>Select One</option>
+                    {publishedCategories?.map((category, index) => (
+                      <option key={index}>{category.name}</option>
+                    ))}
                   </select>
+                  {errors.category && (
+                    <span className="label-text-alt text-red-500">
+                      {errors.category.message}
+                    </span>
+                  )}
                 </div>
                 <div>
-                  <label class="label">
-                    <span class="label-text">Select Img</span>
+                  <label className="label">
+                    <span className="label-text">Select Img</span>
                   </label>
                   <input type="file" name="" id="" />
                 </div>
               </div>
               <div>
-                <button class="btn btn-outline mt-5">Upload</button>
+                <button className="btn btn-outline mt-5">Upload</button>
               </div>
             </form>
           </div>
