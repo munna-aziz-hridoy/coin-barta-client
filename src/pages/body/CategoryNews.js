@@ -1,19 +1,30 @@
 import React, { useContext, useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useParams } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import NewsCard from "../../components/NewsCard";
 import useNews from "../../hooks/useNews";
 import Nav from "../navbar/Nav";
 
-const News = () => {
+const CategoryNews = () => {
   const serverUrl = useContext(ServerUrlContext);
+  const { category } = useParams();
+  //   const [news, setCategoryNews] = useState([]);
   const [news] = useNews(serverUrl);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 10;
 
-  const publishedNews = news?.filter((item) => item.publish === true);
+  //   useEffect(() => {
+  //     fetch(`${serverUrl}/api/v1/news/category-news?category=${category}`)
+  //       .then((res) => res.json())
+  //       .then((data) => console.log(data));
+  //   }, [category, serverUrl]);
+
+  const publishedNews = news?.filter(
+    (item) => item.publish === true && item.category === category
+  );
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
@@ -80,4 +91,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default CategoryNews;
