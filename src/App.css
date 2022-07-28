@@ -1,25 +1,41 @@
 .pagination {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 5rem;
-    font-size: 1.2rem;
-    gap: 5px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5rem;
+  font-size: 1.2rem;
+  gap: 5px;
 }
 .pagination .page-num {
-    padding: 8px 15px;
-    cursor: pointer;
-    border-radius: 3px;
-    font-weight: 400;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 3px;
+  font-weight: 400;
 }
 
 .pagination .page-num:hover {
-    background-color: #570df8;
-    color: #ffffff;
+  background-color: #570df8;
+  color: #ffffff;
 }
 .pagination .active {
-    background-color: #570df8;
-    color: #ffffff;
-    font-weight: 700;
+  background-color: #570df8;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.jodit-react-container {
+  height: 630px !important;
+}
+
+.jodit-container {
+  height: 100% !important;
+}
+
+.jodit-workplace {
+  height: 88% !important;
+}
+
+.jodit-status-bar {
+  display: none !important;
 }
