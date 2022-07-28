@@ -12,7 +12,7 @@ const UpdateNews = () => {
   const [selectedNews, setSelectedNews] = useState({});
   const [content, setContent] = useState("");
   const [categories] = useCategory(serverUrl);
-  //   console.log(selectedNews);
+
   useEffect(() => {
     fetch(`${serverUrl}/api/v1/news/get-single-news?id=${id}`)
       .then((res) => res.json())
@@ -62,7 +62,7 @@ const UpdateNews = () => {
           if (data.success) {
             const image = data.data.url;
             const news = { title, category, content, image };
-            console.log(news);
+
             fetch(`${serverUrl}/api/v1/news/update-news?id=${id}`, {
               method: "PATCH",
               headers: {

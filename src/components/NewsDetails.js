@@ -4,19 +4,45 @@ import { Markup } from "interweave";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ServerUrlContext } from "..";
+import useComments from "../hooks/useComments";
 import useGetUser from "../hooks/useGetUser";
 import Nav from "../pages/navbar/Nav";
 
 const NewsDetails = () => {
   const serverUrl = useContext(ServerUrlContext);
+  const [errorText, setErrorText] = useState("");
+  const [refetch, setRefech] = useState(false);
   const { id } = useParams();
   const [selectedNews, setSelectedNews] = useState({});
   const [user] = useGetUser(serverUrl);
+  const [comments] = useComments(serverUrl, id, refetch);
   useEffect(() => {
     fetch(`${serverUrl}/api/v1/news/get-single-news?id=${id}`)
       .then((res) => res.json())
       .then((data) => setSelectedNews(data.result));
   }, [serverUrl, id]);
+
+  const handleAddComment = (e) => {
+    e.preventDefault();
+    const comment = e.target.comment.value;
+    if (!comment) {
+      setErrorText("Please add any comment");
+      return;
+    }
+    setErrorText("");
+    fetch(`${serverUrl}/api/v1/comments/post-comment`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ newsId: id, content: comment }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        e.target.comment.value = "";
+        setRefech(!refetch);
+      });
+  };
 
   return (
     <>
@@ -40,26 +66,49 @@ const NewsDetails = () => {
           <div className="px-4 py-14">
             <Markup content={selectedNews?.content} />
           </div>
+          <div className="border-t-[1px] border-gray-400 pt-8 my-14">
+            <form onSubmit={handleAddComment}>
+              <p className="text-xl md:text-3xl font-semibold text-gray-600">
+                Post your comment
+              </p>
+              <div className="flex gap-5 items-end my-6">
+                <textarea
+                  name="comment"
+                  cols="50"
+                  rows="4"
+                  placeholder="আপনার মন্তব্য লেখুন..."
+                  className="border-2 border-gray-400 focus:border-gray-400 outline-0 rounded p-2"
+                ></textarea>
+                <input
+                  className="btn bg-gray-800 rounded-sm px-5 py-1 text-lg text-semibold text-white"
+                  type="submit"
+                  value="Post"
+                />
+              </div>
+            </form>
+          </div>
           <div className="my-16 w-full md:w-[60%] lg:w-[45%]">
-            <h3 className="text-lg md:text-2xl font-semibold">Comments</h3>
+            <h3 className="text-lg md:text-xl font-semibold">
+              Recent Comments
+            </h3>
             <div className="px-10 flex flex-col gap-5">
               {/* comments */}
-              <div className="border-b-[1px] border-gray-300 pb-3">
-                <p className="my-8 ">
-                  Tron TRX-এর পতন হয়েছে ০.৫৮ শতাংশ। এর ফলে এর দাম হয়েছে ০.০৮২৫
-                  ডলার।
-                </p>
-                {user?.admin && (
-                  <div className="flex justify-end items-center gap-4 ">
-                    <button className="flex justify-center items-center py-1 px-3 rounded-sm bg-gray-500 text-slate-50 gap-3">
-                      <FontAwesomeIcon icon={faPenToSquare} /> <span>Edit</span>
-                    </button>
-                    <button className="flex justify-center items-center py-1 px-3 rounded-sm bg-red-500 text-slate-50 gap-3">
-                      <FontAwesomeIcon icon={faTrash} /> <span>Delete</span>
-                    </button>
-                  </div>
-                )}
-              </div>
+              {comments?.map((comment) => (
+                <div className="border-b-[1px] border-gray-300 pb-3">
+                  <p className="my-8 ">{comment?.comment}</p>
+                  {user?.admin && (
+                    <div className="flex justify-end items-center gap-4 ">
+                      <button className="flex justify-center items-center py-1 px-3 rounded-sm bg-gray-500 text-slate-50 gap-3">
+                        <FontAwesomeIcon icon={faPenToSquare} />{" "}
+                        <span>Edit</span>
+                      </button>
+                      <button className="flex justify-center items-center py-1 px-3 rounded-sm bg-red-500 text-slate-50 gap-3">
+                        <FontAwesomeIcon icon={faTrash} /> <span>Delete</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </div>

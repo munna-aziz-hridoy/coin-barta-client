@@ -21,7 +21,7 @@ const useGetUser = (serverUrl) => {
         return;
       });
   }, [serverUrl]);
-  console.log(user);
+
   return [user, loading];
 };
 

@@ -91,7 +91,6 @@ const ManageAllNews = () => {
                     item;
                   const date = createDate.split("T")[0];
                   const time = createDate.split("T")[1].split(".")[0];
-                  console.log(createDate, date, time);
 
                   return (
                     <tr

@@ -21,16 +21,14 @@ const Category = () => {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+
     setCurrentItems(categories.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(categories.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, categories]);
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % categories.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
+
     setItemOffset(newOffset);
   };
 
@@ -51,7 +49,7 @@ const Category = () => {
       .then((res) => res.json())
       .then((data) => {
         setRefech(!refech);
-        console.log(data);
+
         categoryField.value = "";
         toast.success("Category Added");
       });
@@ -85,7 +83,6 @@ const Category = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setRefech(!refech);
       });
   };
@@ -200,7 +197,7 @@ const Category = () => {
                   const timeArr = createdDate.split(" ");
                   const date = `${timeArr[1]} ${timeArr[2]} ${timeArr[3]}`;
                   const time = timeArr[4];
-                  // console.log(date);
+
                   // const time = createdDate.split("T")[1].split(".")[0];
 
                   return (

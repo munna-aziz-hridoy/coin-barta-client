@@ -27,11 +27,9 @@ const AddNews = () => {
   );
 
   const handleAddNews = (newsData) => {
-    console.log(content);
     const { title, newsImage, category } = newsData;
-    console.log(category);
+
     if (!content) {
-      console.log("not working");
       return setErrorText("Please Add some content");
     }
 
@@ -49,7 +47,7 @@ const AddNews = () => {
         if (data.success) {
           const image = data.data.url;
           const news = { title, category, content, image };
-          console.log(news);
+
           fetch(`${serverUrl}/api/v1/news/post-news`, {
             method: "POST",
             headers: {

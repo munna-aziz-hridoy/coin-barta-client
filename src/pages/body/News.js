@@ -18,7 +18,7 @@ const News = () => {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+
     setCurrentItems(images.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(images.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, images]);
@@ -31,9 +31,7 @@ const News = () => {
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % images.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
+
     setItemOffset(newOffset);
   };
 
