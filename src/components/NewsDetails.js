@@ -77,7 +77,7 @@ const NewsDetails = () => {
                             alt=""
                         />
                     </div>
-                    <div className="px-4 py-14">
+                    <div className="px-4 py-14 ">
                         <Markup content={selectedNews?.content} />
                     </div>
                     <div className="border-t-[1px] border-gray-400 pt-8 my-14">
@@ -109,7 +109,9 @@ const NewsDetails = () => {
                             {/* comments */}
                             {comments?.map((comment) => (
                                 <div className="border-b-[1px] border-gray-300 pb-3">
-                                    <p className="my-8 ">{comment?.comment}</p>
+                                    <p className="my-8 text-justify ">
+                                        {comment?.comment}
+                                    </p>
                                     {user?.admin && (
                                         <div className="flex justify-end items-center gap-4 ">
                                             <label
@@ -147,7 +149,9 @@ const NewsDetails = () => {
                                                         </label>
                                                         <textarea
                                                             type="text"
-                                                            defaultValue="Comment daynamic"
+                                                            defaultValue={
+                                                                comment?.comment
+                                                            }
                                                             className="input input-bordered pt-1 w-full "
                                                             id="modal-edit-$"
                                                         />

@@ -109,7 +109,7 @@ const AddNews = () => {
                                 <div>
                                     <label className="label">
                                         <span className="label-text">
-                                            Conent
+                                            Content
                                         </span>
                                     </label>
 
