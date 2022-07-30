@@ -9,8 +9,9 @@ import Nav from "../navbar/Nav";
 const CategoryNews = () => {
   const serverUrl = useContext(ServerUrlContext);
   const { category } = useParams();
+  //   console.log(category);
   //   const [news, setCategoryNews] = useState([]);
-  const [news] = useNews(serverUrl);
+  const [news] = useNews(serverUrl, true);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -38,7 +39,7 @@ const CategoryNews = () => {
 
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % publishedNews.length;
-
+    console.log(newOffset);
     setItemOffset(newOffset);
   };
 

@@ -102,7 +102,7 @@ const Category = () => {
               <div className="lg:ml-6 flex items-center">
                 <label
                   for="my-modal-category"
-                  className="bg-gray-200 mt-4 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normaltext-indigo-700 px-5 h-8 flex items-center text-sm"
+                  className="bg-gray-200 mt-4 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normaltext-indigo-700 px-5 h-8 flex items-center text-sm cursor-pointer"
                 >
                   Add New Category
                 </label>
@@ -194,10 +194,12 @@ const Category = () => {
               <tbody>
                 {currentItems?.map((category) => {
                   const { _id, name, createdDate, publish } = category;
-                  const timeArr = createdDate.split(" ");
-                  const date = `${timeArr[1]} ${timeArr[2]} ${timeArr[3]}`;
-                  const time = timeArr[4];
 
+                  const date = createdDate.split("T")[0];
+                  const time = createdDate.split("T")[1].split(".")[0];
+                  // const timeArr = createdDate.split(" ");
+                  // const date = `${timeArr[1]} ${timeArr[2]} ${timeArr[3]}`;
+                  // const time = timeArr[4];
                   // const time = createdDate.split("T")[1].split(".")[0];
 
                   return (

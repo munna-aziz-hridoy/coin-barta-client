@@ -7,7 +7,7 @@ import Nav from "../navbar/Nav";
 
 const News = () => {
   const serverUrl = useContext(ServerUrlContext);
-  const [news] = useNews(serverUrl);
+  const [news] = useNews(serverUrl, true);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
