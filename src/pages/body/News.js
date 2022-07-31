@@ -35,7 +35,7 @@ const News = () => {
     <>
       <Nav />
       <section className="flex max-w-7xl mx-auto justify-center items-start">
-        <div className=" grid grid-cols-1 ml-5 xl:ml-0 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
+        <div className=" grid grid-cols-1 ml-5 xl:ml-0 md:grid-cols-2 xl:grid-cols-3 gap-10 my-10">
           {currentItems?.map((item) => (
             <NewsCard key={item._id} news={item} />
           ))}

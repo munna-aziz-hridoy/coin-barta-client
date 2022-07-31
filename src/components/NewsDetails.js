@@ -99,8 +99,17 @@ const NewsDetails = () => {
               Category: {selectedNews?.category}
             </p>
           </div>
-          <div className="max-h-[530px] overflow-hidden">
-            <img className="w-full h-full" src={selectedNews?.image} alt="" />
+          <div className="md:max-h-[530px] overflow-hidden flex items-center gap-4 flex-col md:flex-row">
+            <img
+              className="w-[98%] md:w-[45%] h-full md:h-[98%]"
+              src={selectedNews?.image}
+              alt=""
+            />
+            <img
+              className="w-[98%] md:w-[45%] h-full md:h-[98%]"
+              src={selectedNews?.image}
+              alt=""
+            />
           </div>
           <div className="px-4 py-14">
             <Markup content={selectedNews?.content} />
@@ -201,7 +210,8 @@ const NewsDetails = () => {
             </div>
           </div>
         </div>
-        <div
+        {/* -------------------- advertise ------------------------- */}
+        {/* <div
           className="mx-5 max-w-[150px] lg:max-w-[300px] flex flex-col justify-between gap-4
       "
         >
@@ -220,7 +230,7 @@ const NewsDetails = () => {
             src="https://trickbd.com/wp-content/uploads/2020/02/24/5e53cb86d908f.jpg"
             alt=""
           />
-        </div>
+        </div> */}
       </section>
     </>
   );

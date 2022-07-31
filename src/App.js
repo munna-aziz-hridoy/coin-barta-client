@@ -16,6 +16,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateNews from "./pages/dashBoard/UpdateNews";
 import SearchResult from "./components/SearchResult";
+import CategoryNews from "./pages/body/CategoryNews";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Title />
       <Routes>
         <Route path="/" element={<News />} />
+        <Route path="/category-news/:category" element={<CategoryNews />} />
         <Route path="/news/:id" element={<NewsDetails />} />
         <Route path="/admin" element={<Login />} />
         <Route path="/searchResult/:searchValue" element={<SearchResult />} />

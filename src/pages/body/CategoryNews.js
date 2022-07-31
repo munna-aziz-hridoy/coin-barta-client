@@ -9,9 +9,9 @@ import Nav from "../navbar/Nav";
 const CategoryNews = () => {
   const serverUrl = useContext(ServerUrlContext);
   const { category } = useParams();
-  //   console.log(category);
+  console.log(category);
   //   const [news, setCategoryNews] = useState([]);
-  const [news] = useNews(serverUrl, true);
+  const [news] = useNews(serverUrl);
   const [currentItems, setCurrentItems] = useState([]);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
@@ -46,6 +46,10 @@ const CategoryNews = () => {
   return (
     <>
       <Nav />
+
+      <div className="max-w-7xl mx-auto">
+        <h2 className="text-3xl font-bold text-gray-600 my-8">{category}</h2>
+      </div>
       <section className="flex max-w-7xl mx-auto justify-center items-start">
         <div className=" grid grid-cols-1 ml-5 xl:ml-0 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
           {currentItems?.map((item) => (

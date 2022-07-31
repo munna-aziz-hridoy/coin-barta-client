@@ -239,7 +239,7 @@ const Category = () => {
                                 Update Category Name
                               </h3>
 
-                              <div className="form-control w-full ">
+                              {/* <div className="form-control w-full ">
                                 <label className="label">
                                   <span className="label-text font-bold">
                                     Previous
@@ -252,7 +252,7 @@ const Category = () => {
                                   value={name}
                                   disabled
                                 />
-                              </div>
+                              </div> */}
                               <div className="form-control w-full ">
                                 <label className="label">
                                   <span className="label-text font-bold">
@@ -261,6 +261,7 @@ const Category = () => {
                                 </label>
                                 <input
                                   type="text"
+                                  defaultValue={name}
                                   placeholder="New Category Name"
                                   className="input input-bordered w-full "
                                   id={`update-category-${_id}`}

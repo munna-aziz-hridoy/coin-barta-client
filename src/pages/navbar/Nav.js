@@ -50,7 +50,7 @@ const Nav = () => {
                   return (
                     <li>
                       <Link
-                        to={`/category/${item.name}`}
+                        to={`/category-news/${item.name}`}
                         className="text-lg py-0"
                       >
                         {item.name}
@@ -71,7 +71,7 @@ const Nav = () => {
                   return (
                     <li>
                       <Link
-                        to={`/category/${item.name}`}
+                        to={`/category-news/${item.name}`}
                         className="text-lg py-0"
                       >
                         {item.name}
