@@ -2,8 +2,6 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/login/Login";
 import News from "./pages/body/News";
-import Tutorial from "./pages/body/Tutorial";
-import Contact from "./pages/body/Contact";
 import Footer from "./pages/footer/Footer";
 import DashBoard from "./pages/dashBoard/DashBoard";
 import Title from "./pages/navbar/Title";
@@ -17,7 +15,7 @@ import NewsDetails from "./components/NewsDetails";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import UpdateNews from "./pages/dashBoard/UpdateNews";
-import CategoryNews from "./pages/body/CategoryNews";
+import SearchResult from "./components/SearchResult";
 
 function App() {
   return (
@@ -25,13 +23,9 @@ function App() {
       <Title />
       <Routes>
         <Route path="/" element={<News />} />
-        <Route path="category/:category" element={<CategoryNews />} />
-
         <Route path="/news/:id" element={<NewsDetails />} />
-
-        <Route path="/tutorial" element={<Tutorial />} />
-        <Route path="/contact" element={<Contact />} />
         <Route path="/admin" element={<Login />} />
+        <Route path="/searchResult/:searchValue" element={<SearchResult />} />
         <Route path="/update-news/:id" element={<UpdateNews />} />
         <Route
           path="/manageAll"

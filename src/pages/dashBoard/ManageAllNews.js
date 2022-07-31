@@ -32,7 +32,7 @@ const ManageAllNews = () => {
                         </div>
                         <div className="w-full lg:w-2/3 flex flex-col lg:flex-row items-start lg:items-center justify-end">
                             <div className="lg:ml-6 flex items-center">
-                                <button className="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normaltext-indigo-700 px-5 h-8 flex items-center text-sm">
+                                <button className="bg-gray-200 transition duration-150 ease-in-out focus:outline-none border border-transparent focus:border-gray-800 focus:shadow-outline-gray hover:bg-gray-300 rounded md:font-bold  font-normal text-indigo-700 px-5 h-8 flex items-center text-sm">
                                     <Link to="/addNews">Add News</Link>
                                 </button>
                                 <Link

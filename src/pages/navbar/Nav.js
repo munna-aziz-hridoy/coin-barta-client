@@ -1,16 +1,19 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import useCategory from "../../hooks/useCategory";
 
 const Nav = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [categories] = useCategory(serverUrl);
+  const navigate = useNavigate();
 
   const filtered = categories.filter((category) => category.publish === true);
 
-  const handleSearch = (e) => {
-    console.log(e.target.value);
+  const handleSearch = () => {
+    const searchField = document.getElementById("search-field");
+    const searchValue = searchField.value;
+    navigate(`/searchResult/${searchValue}`);
   };
   return (
     <section className="bg-[#FABF2C] px-4">
@@ -83,11 +86,14 @@ const Nav = () => {
           <div className="navbar-end">
             <input
               type="text"
-              onChange={(e) => handleSearch(e)}
+              id="search-field"
               placeholder="Search"
               className="py-2 rounded-l-lg pl-3"
             />
-            <button className="bg-slate-200 rounded-r-lg  p-2">
+            <button
+              onClick={handleSearch}
+              className="bg-slate-200 rounded-r-lg  p-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-5"
