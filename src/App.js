@@ -15,6 +15,7 @@ import NewsDetails from './components/NewsDetails'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import UpdateNews from './pages/dashBoard/UpdateNews'
+import SearchResult from './components/SearchResult'
 
 function App() {
     return (
@@ -24,6 +25,10 @@ function App() {
                 <Route path="/" element={<News />} />
                 <Route path="/news/:id" element={<NewsDetails />} />
                 <Route path="/admin" element={<Login />} />
+                <Route
+                    path="/searchResult/:searchValue"
+                    element={<SearchResult />}
+                />
                 <Route path="/update-news/:id" element={<UpdateNews />} />
                 <Route
                     path="/manageAll"
