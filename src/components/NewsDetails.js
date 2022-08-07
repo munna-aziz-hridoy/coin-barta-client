@@ -100,6 +100,14 @@ const NewsDetails = () => {
             </p>
           </div>
           <div className="md:max-h-[530px] overflow-hidden flex items-center gap-4 flex-col md:flex-row">
+            {selectedNews?.images?.map((image) => (
+              <img
+                className="w-[98%] md:w-[45%] h-full md:h-[98%]"
+                src={image}
+                alt=""
+              />
+            ))}
+            {/* 
             <img
               className="w-[98%] md:w-[45%] h-full md:h-[98%]"
               src={selectedNews?.image}
@@ -109,7 +117,7 @@ const NewsDetails = () => {
               className="w-[98%] md:w-[45%] h-full md:h-[98%]"
               src={selectedNews?.image}
               alt=""
-            />
+            /> */}
           </div>
           <div className="px-4 py-14">
             <Markup content={selectedNews?.content} />

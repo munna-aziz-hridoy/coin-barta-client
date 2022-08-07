@@ -20,8 +20,9 @@ const SearchResult = () => {
   useEffect(() => {
     const searchNews = news?.filter(
       (item) =>
-        item.publish === true &&
-        item.title.toLowerCase().includes(searchValue.toLowerCase())
+        (item.publish &&
+          item.title.toLowerCase().includes(searchValue.toLowerCase())) ||
+        item.content.toLowerCase().includes(searchValue.toLowerCase())
     );
     setSearchResults(searchNews);
   }, [news, searchValue]);

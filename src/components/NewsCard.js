@@ -11,7 +11,7 @@ const NewsCard = ({ news }) => {
   return (
     <div class="max-w-xs bg-white rounded border border-gray-200 shadow-md ">
       <Link to={`/news/${news._id}`} target="_blank">
-        <img class="rounded-t" src={news?.image} alt="" />
+        <img class="rounded-t" src={news?.images[0]} alt="" />
       </Link>
       <div class="p-5">
         <Link to={`/news/${news._id}`} target="_blank">

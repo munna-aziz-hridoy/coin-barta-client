@@ -9,9 +9,10 @@ import Spinner from "../../components/Spinner";
 
 const UpdateEmail = () => {
   const [showPass, setShowPass] = useState(false);
+  const [refetch, setRefetch] = useState(false);
   const serverUrl = useContext(ServerUrlContext);
-  const [user, loading] = useGetUser(serverUrl);
-
+  const [user, loading] = useGetUser(serverUrl, refetch);
+  console.log(user);
   const {
     register,
     formState: { errors },
@@ -49,6 +50,9 @@ const UpdateEmail = () => {
         reset();
         if (data?.success) {
           toast.success("Successfully Updated");
+          setRefetch(!refetch);
+          sessionStorage.removeItem("accessToken");
+          sessionStorage.setItem("accessToken", data?.token);
         } else {
           toast.error("Something is wrong");
         }
@@ -86,7 +90,6 @@ const UpdateEmail = () => {
                     })}
                     defaultValue={user?.email}
                     type="email"
-                    placeholder="previous@gmail.com"
                     className="input input-bordered w-full "
                   />
                   <label className="label">

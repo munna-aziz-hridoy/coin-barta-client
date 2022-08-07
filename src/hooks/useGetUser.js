@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const useGetUser = (serverUrl) => {
+const useGetUser = (serverUrl, refetch) => {
   const [user, setUser] = useState({});
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -20,7 +20,7 @@ const useGetUser = (serverUrl) => {
         setLoading(false);
         return;
       });
-  }, [serverUrl]);
+  }, [serverUrl, refetch]);
 
   return [user, loading];
 };

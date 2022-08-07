@@ -14,6 +14,10 @@ const AddNews = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [content, setContent] = useState("");
   const [errorText, setErrorText] = useState("");
+  const [errorTextImage, setErrorTextImage] = useState("");
+  // const [selectedImages, setSelectedImages] = useState([]);
+  const [imgUrlOne, setImgUrlOne] = useState();
+  const [imgUrlTwo, setImgUrlTwo] = useState();
   const [categories] = useCategory(serverUrl);
   const navigate = useNavigate();
 
@@ -28,43 +32,48 @@ const AddNews = () => {
     (category) => category.publish === true
   );
 
-  const handleAddNews = (newsData) => {
-    const { title, newsImage, category } = newsData;
+  const handleSetImg = (file, setImg) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setImg(reader.result);
+    };
+  };
 
+  const handleAddNews = (newsData) => {
+    const { title, category } = newsData;
     if (!content) {
       return setErrorText("Please Add some content");
     }
 
     setErrorText("");
 
-    const uploadedImg = newsImage[0];
-    const formData = new FormData();
-    formData.append("image", uploadedImg);
-
-    const imgbbAPIkey = "52ad69453d156ba9876338195fd1a8a5";
-    const url = `https://api.imgbb.com/1/upload?key=${imgbbAPIkey}`;
-    fetch(url, { method: "POST", body: formData })
+    // imageUrlArray(newsImages);
+    // const uploadedImg = newsImage[0];
+    // const formData = new FormData();
+    // formData.append("image", uploadedImg);
+    // const imgbbAPIkey = "52ad69453d156ba9876338195fd1a8a5";
+    // const url = `https://api.imgbb.com/1/upload?key=${imgbbAPIkey}`;
+    // fetch(url, { method: "POST", body: formData })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     if (data.success) {
+    //       const image = data.data.url;
+    //       const news = { title, category, content, image };
+    const news = { title, category, content, imgUrlOne, imgUrlTwo };
+    fetch(`${serverUrl}/api/v1/news/post-news`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(news),
+    })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          const image = data.data.url;
-          const news = { title, category, content, image };
-
-          fetch(`${serverUrl}/api/v1/news/post-news`, {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-            },
-            body: JSON.stringify(news),
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              if (data.success) {
-                toast.success("Successfully added news");
-                navigate("/manageAll");
-                reset();
-              }
-            });
+          toast.success("Successfully added news");
+          navigate("/manageAll");
+          reset();
         }
       });
   };
@@ -137,21 +146,49 @@ const AddNews = () => {
                       </span>
                     )}
                   </div>
-                  <div>
-                    <label className="label">
-                      <span className="label-text">Select Img</span>
-                    </label>
-                    <input
-                      type="file"
-                      name=""
-                      id=""
-                      {...register("newsImage", {
-                        required: "Please insert an image",
-                      })}
-                    />
+                  <div className="flex flex-col gap-3 my-3">
+                    <div>
+                      <label className="label">
+                        <span className="label-text">Select First Image</span>
+                      </label>
+                      <input
+                        type="file"
+                        name=""
+                        id=""
+                        onChange={(e) =>
+                          handleSetImg(e.target.files[0], setImgUrlOne)
+                        }
+                        // multiple
+                        // {...register("newsImages", {
+                        //   required: "Please insert an image",
+                        // })}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">
+                        <span className="label-text">Select Second Image</span>
+                      </label>
+                      <input
+                        type="file"
+                        name=""
+                        id=""
+                        onChange={(e) =>
+                          handleSetImg(e.target.files[0], setImgUrlTwo)
+                        }
+                        // multiple
+                        // {...register("newsImages", {
+                        //   required: "Please insert an image",
+                        // })}
+                      />
+                    </div>
                     {errors.newsImage && (
                       <span className="label-text-alt text-red-500">
                         {errors.newsImage.message}
+                      </span>
+                    )}
+                    {errorTextImage && (
+                      <span className="label-text-alt text-red-500">
+                        {errorTextImage}
                       </span>
                     )}
                   </div>

@@ -17,12 +17,14 @@ import "react-toastify/dist/ReactToastify.css";
 import UpdateNews from "./pages/dashBoard/UpdateNews";
 import SearchResult from "./components/SearchResult";
 import CategoryNews from "./pages/body/CategoryNews";
+import Test from "./pages/Test";
 
 function App() {
   return (
     <div>
       <Title />
       <Routes>
+        <Route path="/test" element={<Test />} />
         <Route path="/" element={<News />} />
         <Route path="/category-news/:category" element={<CategoryNews />} />
         <Route path="/news/:id" element={<NewsDetails />} />
