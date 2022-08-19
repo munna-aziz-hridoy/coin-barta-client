@@ -19,7 +19,7 @@ const Nav = () => {
     <section className="bg-[#FABF2C] px-4">
       <div className=" max-w-7xl mx-auto">
         <div className="navbar p-0">
-          <div className="navbar-start">
+          <div className="navbar-start w-3/4">
             <div className="dropdown">
               <label tabindex="0" className="btn btn-ghost lg:hidden">
                 <svg
@@ -61,15 +61,15 @@ const Nav = () => {
               </ul>
             </div>
             <div className=" hidden lg:flex">
-              <ul className="gap-10 menu-horizontal">
-                <li>
+              <ul className="menu-horizontal flex-wrap gap-x-8 gap-y-2 py-2">
+                <li className="w-max">
                   <Link to="/" className="text-lg py-0">
                     হোমপেজ{" "}
                   </Link>
                 </li>
                 {filtered?.map((item) => {
                   return (
-                    <li>
+                    <li className="w-max">
                       <Link
                         to={`/category-news/${item.name}`}
                         className="text-lg py-0"
@@ -83,7 +83,7 @@ const Nav = () => {
             </div>
           </div>
 
-          <div className="navbar-end">
+          <div className="navbar-end w-1/4">
             <input
               type="text"
               id="search-field"

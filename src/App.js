@@ -17,14 +17,26 @@ import "react-toastify/dist/ReactToastify.css";
 import UpdateNews from "./pages/dashBoard/UpdateNews";
 import SearchResult from "./components/SearchResult";
 import CategoryNews from "./pages/body/CategoryNews";
-import Test from "./pages/Test";
+
+import useGetUser from "./hooks/useGetUser";
+import { useContext } from "react";
+import { ServerUrlContext } from ".";
 
 function App() {
+  const serverUrl = useContext(ServerUrlContext);
+  const [user] = useGetUser(serverUrl);
+  console.log(serverUrl);
+
   return (
     <div>
+      {user?.admin && (
+        <div className="w-full flex justify-center items-center h-8 ">
+          <h2 className="text-xl font-semibold text-gray-600">Admin</h2>
+        </div>
+      )}
       <Title />
+
       <Routes>
-        <Route path="/test" element={<Test />} />
         <Route path="/" element={<News />} />
         <Route path="/category-news/:category" element={<CategoryNews />} />
         <Route path="/news/:id" element={<NewsDetails />} />

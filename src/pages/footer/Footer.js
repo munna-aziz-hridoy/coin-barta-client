@@ -1,4 +1,5 @@
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faFacebookF } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -19,18 +20,22 @@ const Footer = () => {
             . All Rights Reserved.
           </span>
           <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
-            <Link
-              to="https://www.facebook.com/coinbarta"
+            <a
+              href="https://www.facebook.com/coinbarta"
               target="_blank"
+              rel="noreferrer"
               class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
-            ></Link>
-            <Link
-              to="https://www.facebook.com/groups/390041106277106"
+            >
+              <FontAwesomeIcon icon={faFacebookF} />
+            </a>
+            <a
+              href="https://www.facebook.com/groups/390041106277106"
               target="_blank"
+              rel="noreferrer"
               class="text-gray-500 hover:text-gray-900 dark:hover:text-white"
             >
               <FontAwesomeIcon icon={faUserGroup} />
-            </Link>
+            </a>
             {/* <Link
               to="/"
               class="text-gray-500 hover:text-gray-900 dark:hover:text-white"

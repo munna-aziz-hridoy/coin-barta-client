@@ -58,15 +58,15 @@ const News = () => {
           />
         </div>
       </section>
-      <div className="mr-[400px]">
+      <div className="md:mr-[400px] mt-5">
         <>
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel=" >"
             onPageChange={handlePageClick}
             pageRangeDisplayed={3}
             pageCount={pageCount}
-            previousLabel="< previous"
+            previousLabel="< "
             renderOnZeroPageCount={null}
             containerClassName="pagination"
             pageLinkClassName="page-num"

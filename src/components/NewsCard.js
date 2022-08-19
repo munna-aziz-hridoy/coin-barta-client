@@ -26,7 +26,7 @@ const NewsCard = ({ news }) => {
           </p>
           <p className="flex justify-start items-center gap-2">
             <FontAwesomeIcon icon={faClockRotateLeft} />
-            <span>{news?.createDate.split("T")[0]}</span>
+            <span>{news?.createDate.split(", ")[0]}</span>
           </p>
         </div>
       </div>

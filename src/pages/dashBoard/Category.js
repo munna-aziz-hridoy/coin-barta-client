@@ -90,7 +90,7 @@ const Category = () => {
   return (
     <>
       <DashBoardNav />
-      <div className="py-20 mx-4 bg-white  md:min-h-[110vh] overflow-x-auto relative">
+      <div className="pt-20 mx-4 bg-white  md:min-h-[110vh] overflow-x-auto relative">
         <div className="mx-auto container bg-slate-100 text-gray-500 shadow rounded">
           <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
             <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
@@ -194,8 +194,8 @@ const Category = () => {
               <tbody>
                 {currentItems?.map((category) => {
                   const { _id, name, createdDate, publish } = category;
-                  const date = createdDate.split("T")[0];
-                  const time = createdDate.split("T")[1].split(".")[0];
+                  const date = createdDate.split(", ")[0];
+                  const time = createdDate.split(", ")[1];
 
                   return (
                     <tr
@@ -295,16 +295,34 @@ const Category = () => {
             </table>
           </div>
         </div>
+        <div className="mt-10">
+          <>
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=" >"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel="< "
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              pageLinkClassName="page-num"
+              previousLinkClassName="page-num"
+              nextLinkClassName="page-num"
+              activeLinkClassName="active"
+            />
+          </>
+        </div>
       </div>
-      <div>
+      {/* <div className="mt-5">
         <>
           <ReactPaginate
             breakLabel="..."
-            nextLabel="next >"
+            nextLabel=" >"
             onPageChange={handlePageClick}
             pageRangeDisplayed={3}
             pageCount={pageCount}
-            previousLabel="< previous"
+            previousLabel="< "
             renderOnZeroPageCount={null}
             containerClassName="pagination"
             pageLinkClassName="page-num"
@@ -313,7 +331,7 @@ const Category = () => {
             activeLinkClassName="active"
           />
         </>
-      </div>
+      </div> */}
     </>
   );
 };

@@ -93,7 +93,8 @@ const NewsDetails = () => {
           </h2>
           <div className="flex justify-between items-center pr-10">
             <p className="text-[15px] font-light text-gray-500 my-4">
-              Published in: {selectedNews?.createDate?.split("T")[0]}
+              Published in: {selectedNews?.createDate?.split(", ")[0]}{" "}
+              {selectedNews?.createDate?.split(", ")[1]}
             </p>
             <p className="text-[15px] font-light text-gray-500 my-4">
               Category: {selectedNews?.category}

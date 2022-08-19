@@ -1,6 +1,7 @@
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import { ServerUrlContext } from "../..";
 import useNews from "../../hooks/useNews";
@@ -10,6 +11,24 @@ const ManageAllNews = () => {
   const serverUrl = useContext(ServerUrlContext);
   const [refetch, setRefetch] = useState(false);
   const [news] = useNews(serverUrl, refetch);
+
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 6;
+
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+
+    setCurrentItems(news.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(news.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, news]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % news.length;
+
+    setItemOffset(newOffset);
+  };
 
   const handleNewsPublish = (id) => {
     fetch(`${serverUrl}/api/v1/news/publish-news?id=${id}`, {
@@ -22,7 +41,7 @@ const ManageAllNews = () => {
   return (
     <>
       <DashBoardNav />
-      <div className="py-20  bg-white  md:min-h-[110vh] overflow-hidden">
+      <div className="pt-20  bg-white  md:min-h-[110vh] overflow-hidden">
         <div className="mx-auto overflow-auto container bg-slate-100 text-gray-800 shadow rounded">
           <div className="flex flex-col lg:flex-row p-4 lg:p-8 justify-between items-start lg:items-stretch w-full">
             <div className="w-full lg:w-1/3 flex flex-col lg:flex-row items-start lg:items-center">
@@ -88,11 +107,11 @@ const ManageAllNews = () => {
                 </tr>
               </thead>
               <tbody>
-                {news?.map((item) => {
+                {currentItems?.map((item) => {
                   const { title, createDate, images, _id, category, publish } =
                     item;
-                  const date = createDate.split("T")[0];
-                  const time = createDate.split("T")[1].split(".")[0];
+                  const date = createDate.split(", ")[0];
+                  const time = createDate.split(", ")[1];
 
                   return (
                     <tr
@@ -100,7 +119,7 @@ const ManageAllNews = () => {
                       data-aos="fade-right"
                       data-aos-duration="2000"
                     >
-                      <td className="pr-8 text-left text-sm tracking-normal leading-4 flex justify-center items-center">
+                      <td className="pr-8 text-left text-sm tracking-normal leading-4 flex justify-center items-center mx-3">
                         <Link
                           to={`/news/${_id}`}
                           className="h-24 w-24 flex justify-center items-center"
@@ -145,6 +164,24 @@ const ManageAllNews = () => {
               </tbody>
             </table>
           </div>
+        </div>
+        <div className="my-16">
+          <>
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={3}
+              pageCount={pageCount}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              pageLinkClassName="page-num"
+              previousLinkClassName="page-num"
+              nextLinkClassName="page-num"
+              activeLinkClassName="active"
+            />
+          </>
         </div>
       </div>
     </>
