@@ -8,6 +8,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const NewsCard = ({ news }) => {
+  console.log(news);
   return (
     <div class="max-w-xs bg-white rounded border border-gray-200 shadow-md ">
       <Link to={`/news/${news._id}`} target="_blank">

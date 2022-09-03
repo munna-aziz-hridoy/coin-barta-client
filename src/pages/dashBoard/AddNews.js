@@ -38,7 +38,14 @@ const AddNews = () => {
     reader.onloadend = () => {
       setImg(reader.result);
     };
+
+    // const formData = new FormData();
+    // formData.append("image", file);
+    // console.log(formData);
   };
+
+  console.log(imgUrlOne);
+  console.log(imgUrlTwo);
 
   const handleAddNews = (newsData) => {
     const { title, category } = newsData;
@@ -77,6 +84,16 @@ const AddNews = () => {
         }
       });
   };
+
+  // const testUpload = () => {
+  //   fetch(`${serverUrl}/api/v1/news/post-news`, {
+  //     method: "POST",
+  //     // headers: {
+  //     //   "content-type": "application/json",
+  //     // },
+
+  //   });
+  // };
 
   return (
     <>
